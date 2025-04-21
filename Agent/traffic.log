@@ -1,0 +1,555 @@
+2025-04-15 17:05:20,439 - INFO - Successfully connected to database
+2025-04-15 17:05:20,440 - INFO - Traffic collector started successfully
+2025-04-15 17:05:20,853 - ERROR - Database error: PostgreSQL text fields cannot contain NUL (0x00) bytes
+2025-04-15 17:05:21,858 - ERROR - Database error: PostgreSQL text fields cannot contain NUL (0x00) bytes
+2025-04-15 17:05:22,868 - ERROR - Database error: 关系 "traffic" 不存在
+LINE 2:                     INSERT INTO traffic (
+                                        ^
+2025-04-15 17:05:22,956 - INFO - Successfully connected to database
+2025-04-15 17:05:22,956 - ERROR - Database error: PostgreSQL text fields cannot contain NUL (0x00) bytes
+2025-04-15 17:05:23,968 - ERROR - Database error: 关系 "traffic" 不存在
+LINE 2:                     INSERT INTO traffic (
+                                        ^
+2025-04-15 17:05:24,973 - ERROR - Database error: 关系 "traffic" 不存在
+LINE 2:                     INSERT INTO traffic (
+                                        ^
+2025-04-15 17:05:25,059 - INFO - Successfully connected to database
+2025-04-15 17:05:25,059 - ERROR - Database error: PostgreSQL text fields cannot contain NUL (0x00) bytes
+2025-04-15 17:05:26,071 - ERROR - Database error: 关系 "traffic" 不存在
+LINE 2:                     INSERT INTO traffic (
+                                        ^
+2025-04-15 17:05:27,086 - ERROR - Database error: 关系 "traffic" 不存在
+LINE 2:                     INSERT INTO traffic (
+                                        ^
+2025-04-15 17:05:27,276 - INFO - Successfully connected to database
+2025-04-15 17:05:27,278 - ERROR - Database error: 关系 "traffic" 不存在
+LINE 2:                     INSERT INTO traffic (
+                                        ^
+2025-04-15 17:05:28,282 - ERROR - Database error: PostgreSQL text fields cannot contain NUL (0x00) bytes
+2025-04-15 17:05:29,286 - ERROR - Database error: 关系 "traffic" 不存在
+LINE 2:                     INSERT INTO traffic (
+                                        ^
+2025-04-15 17:05:29,373 - INFO - Successfully connected to database
+2025-04-15 17:05:29,373 - ERROR - Database error: PostgreSQL text fields cannot contain NUL (0x00) bytes
+2025-04-15 17:05:30,379 - ERROR - Database error: PostgreSQL text fields cannot contain NUL (0x00) bytes
+2025-04-15 17:05:31,386 - ERROR - Database error: 关系 "traffic" 不存在
+LINE 2:                     INSERT INTO traffic (
+                                        ^
+2025-04-15 17:05:31,573 - INFO - Successfully connected to database
+2025-04-15 17:05:31,574 - ERROR - Database error: PostgreSQL text fields cannot contain NUL (0x00) bytes
+2025-04-15 17:05:32,587 - ERROR - Database error: 关系 "traffic" 不存在
+LINE 2:                     INSERT INTO traffic (
+                                        ^
+2025-04-15 17:05:33,591 - ERROR - Database error: 关系 "traffic" 不存在
+LINE 2:                     INSERT INTO traffic (
+                                        ^
+2025-04-15 17:05:33,680 - INFO - Successfully connected to database
+2025-04-15 17:05:33,681 - ERROR - Database error: PostgreSQL text fields cannot contain NUL (0x00) bytes
+2025-04-15 17:18:10,111 - INFO - Successfully connected to database
+2025-04-15 17:18:10,113 - INFO - Traffic collector started successfully
+2025-04-15 17:18:10,746 - ERROR - Database error: PostgreSQL text fields cannot contain NUL (0x00) bytes
+2025-04-15 17:18:11,762 - ERROR - Database error: PostgreSQL text fields cannot contain NUL (0x00) bytes
+2025-04-15 17:18:12,781 - ERROR - Database error: PostgreSQL text fields cannot contain NUL (0x00) bytes
+2025-04-15 17:18:13,785 - ERROR - Database error: PostgreSQL text fields cannot contain NUL (0x00) bytes
+2025-04-15 17:18:14,797 - ERROR - Database error: PostgreSQL text fields cannot contain NUL (0x00) bytes
+2025-04-15 17:18:15,806 - ERROR - Database error: PostgreSQL text fields cannot contain NUL (0x00) bytes
+2025-04-15 17:18:16,822 - ERROR - Database error: PostgreSQL text fields cannot contain NUL (0x00) bytes
+2025-04-15 17:18:17,838 - ERROR - Database error: PostgreSQL text fields cannot contain NUL (0x00) bytes
+2025-04-15 17:18:18,852 - ERROR - Database error: PostgreSQL text fields cannot contain NUL (0x00) bytes
+2025-04-15 17:18:18,962 - INFO - Successfully connected to database
+2025-04-15 17:18:18,964 - ERROR - Database error: PostgreSQL text fields cannot contain NUL (0x00) bytes
+2025-04-15 17:18:19,967 - ERROR - Database error: PostgreSQL text fields cannot contain NUL (0x00) bytes
+2025-04-15 17:18:20,970 - ERROR - Database error: PostgreSQL text fields cannot contain NUL (0x00) bytes
+2025-04-15 17:18:21,058 - INFO - Successfully connected to database
+2025-04-15 17:18:21,060 - ERROR - Database error: PostgreSQL text fields cannot contain NUL (0x00) bytes
+2025-04-15 17:18:22,072 - ERROR - Database error: PostgreSQL text fields cannot contain NUL (0x00) bytes
+2025-04-15 17:18:23,073 - ERROR - Database error: PostgreSQL text fields cannot contain NUL (0x00) bytes
+2025-04-15 17:18:24,078 - ERROR - Database error: PostgreSQL text fields cannot contain NUL (0x00) bytes
+2025-04-15 17:18:24,167 - INFO - Successfully connected to database
+2025-04-15 17:18:24,169 - ERROR - Database error: PostgreSQL text fields cannot contain NUL (0x00) bytes
+2025-04-15 17:18:25,178 - ERROR - Database error: PostgreSQL text fields cannot contain NUL (0x00) bytes
+2025-04-15 17:18:26,188 - ERROR - Database error: PostgreSQL text fields cannot contain NUL (0x00) bytes
+2025-04-15 17:18:27,191 - ERROR - Database error: PostgreSQL text fields cannot contain NUL (0x00) bytes
+2025-04-15 17:18:28,200 - ERROR - Database error: PostgreSQL text fields cannot contain NUL (0x00) bytes
+2025-04-15 17:18:29,203 - ERROR - Database error: PostgreSQL text fields cannot contain NUL (0x00) bytes
+2025-04-15 17:18:30,218 - ERROR - Database error: PostgreSQL text fields cannot contain NUL (0x00) bytes
+2025-04-15 17:18:31,227 - ERROR - Database error: PostgreSQL text fields cannot contain NUL (0x00) bytes
+2025-04-15 17:18:31,419 - INFO - Successfully connected to database
+2025-04-15 17:18:31,421 - ERROR - Database error: PostgreSQL text fields cannot contain NUL (0x00) bytes
+2025-04-15 17:18:32,437 - ERROR - Database error: PostgreSQL text fields cannot contain NUL (0x00) bytes
+2025-04-15 17:18:33,448 - ERROR - Database error: PostgreSQL text fields cannot contain NUL (0x00) bytes
+2025-04-15 17:18:34,458 - ERROR - Database error: PostgreSQL text fields cannot contain NUL (0x00) bytes
+2025-04-15 17:18:35,463 - ERROR - Database error: PostgreSQL text fields cannot contain NUL (0x00) bytes
+2025-04-15 17:18:36,465 - ERROR - Database error: PostgreSQL text fields cannot contain NUL (0x00) bytes
+2025-04-15 17:18:37,474 - ERROR - Database error: PostgreSQL text fields cannot contain NUL (0x00) bytes
+2025-04-15 17:18:38,488 - ERROR - Database error: PostgreSQL text fields cannot contain NUL (0x00) bytes
+2025-04-15 17:18:39,495 - ERROR - Database error: PostgreSQL text fields cannot contain NUL (0x00) bytes
+2025-04-15 17:18:40,501 - ERROR - Database error: PostgreSQL text fields cannot contain NUL (0x00) bytes
+2025-04-15 17:18:41,513 - ERROR - Database error: PostgreSQL text fields cannot contain NUL (0x00) bytes
+2025-04-15 17:18:41,605 - INFO - Successfully connected to database
+2025-04-15 17:18:41,606 - ERROR - Database error: PostgreSQL text fields cannot contain NUL (0x00) bytes
+2025-04-15 17:18:42,614 - ERROR - Database error: PostgreSQL text fields cannot contain NUL (0x00) bytes
+2025-04-15 17:18:43,617 - ERROR - Database error: PostgreSQL text fields cannot contain NUL (0x00) bytes
+2025-04-15 17:18:43,806 - INFO - Successfully connected to database
+2025-04-15 17:18:43,806 - ERROR - Database error: PostgreSQL text fields cannot contain NUL (0x00) bytes
+2025-04-15 17:18:44,819 - ERROR - Database error: PostgreSQL text fields cannot contain NUL (0x00) bytes
+2025-04-15 17:18:45,822 - ERROR - Database error: PostgreSQL text fields cannot contain NUL (0x00) bytes
+2025-04-15 17:18:46,009 - INFO - Successfully connected to database
+2025-04-15 17:18:46,010 - ERROR - Database error: PostgreSQL text fields cannot contain NUL (0x00) bytes
+2025-04-15 17:18:47,023 - ERROR - Database error: PostgreSQL text fields cannot contain NUL (0x00) bytes
+2025-04-15 17:18:48,038 - ERROR - Database error: PostgreSQL text fields cannot contain NUL (0x00) bytes
+2025-04-15 17:18:48,226 - INFO - Successfully connected to database
+2025-04-15 17:18:48,227 - ERROR - Database error: PostgreSQL text fields cannot contain NUL (0x00) bytes
+2025-04-15 17:18:49,241 - ERROR - Database error: PostgreSQL text fields cannot contain NUL (0x00) bytes
+2025-04-15 17:18:50,258 - ERROR - Database error: PostgreSQL text fields cannot contain NUL (0x00) bytes
+2025-04-15 17:18:51,262 - ERROR - Database error: PostgreSQL text fields cannot contain NUL (0x00) bytes
+2025-04-15 17:18:52,267 - ERROR - Database error: PostgreSQL text fields cannot contain NUL (0x00) bytes
+2025-04-15 17:18:52,357 - INFO - Successfully connected to database
+2025-04-15 17:18:52,357 - ERROR - Database error: PostgreSQL text fields cannot contain NUL (0x00) bytes
+2025-04-15 17:18:53,366 - ERROR - Database error: PostgreSQL text fields cannot contain NUL (0x00) bytes
+2025-04-15 17:18:54,378 - ERROR - Database error: PostgreSQL text fields cannot contain NUL (0x00) bytes
+2025-04-15 17:18:55,387 - ERROR - Database error: PostgreSQL text fields cannot contain NUL (0x00) bytes
+2025-04-15 17:18:56,403 - ERROR - Database error: PostgreSQL text fields cannot contain NUL (0x00) bytes
+2025-04-15 17:18:56,649 - INFO - Successfully connected to database
+2025-04-15 17:18:56,651 - ERROR - Database error: PostgreSQL text fields cannot contain NUL (0x00) bytes
+2025-04-15 17:19:49,157 - INFO - Successfully connected to database
+2025-04-15 17:19:49,159 - INFO - Traffic collector started successfully
+2025-04-15 17:19:49,335 - ERROR - Database error: PostgreSQL text fields cannot contain NUL (0x00) bytes
+2025-04-15 17:19:50,343 - ERROR - Database error: PostgreSQL text fields cannot contain NUL (0x00) bytes
+2025-04-15 17:19:51,349 - ERROR - Database error: PostgreSQL text fields cannot contain NUL (0x00) bytes
+2025-04-15 17:19:51,435 - INFO - Successfully connected to database
+2025-04-15 17:19:51,436 - ERROR - Database error: PostgreSQL text fields cannot contain NUL (0x00) bytes
+2025-04-15 17:19:52,447 - ERROR - Database error: PostgreSQL text fields cannot contain NUL (0x00) bytes
+2025-04-15 17:19:53,462 - ERROR - Database error: PostgreSQL text fields cannot contain NUL (0x00) bytes
+2025-04-15 17:19:54,465 - ERROR - Database error: PostgreSQL text fields cannot contain NUL (0x00) bytes
+2025-04-15 17:20:07,917 - INFO - Successfully connected to database
+2025-04-15 17:20:07,920 - INFO - Traffic collector started successfully
+2025-04-15 17:20:08,568 - ERROR - Database error: PostgreSQL text fields cannot contain NUL (0x00) bytes
+2025-04-15 17:20:09,574 - ERROR - Database error: PostgreSQL text fields cannot contain NUL (0x00) bytes
+2025-04-15 17:20:10,590 - ERROR - Database error: PostgreSQL text fields cannot contain NUL (0x00) bytes
+2025-04-15 17:34:38,101 - INFO - Successfully connected to database
+2025-04-15 17:34:38,102 - INFO - Traffic collector started successfully
+2025-04-15 17:34:40,120 - ERROR - Database error: PostgreSQL text fields cannot contain NUL (0x00) bytes
+2025-04-15 17:34:41,123 - ERROR - Database error: PostgreSQL text fields cannot contain NUL (0x00) bytes
+2025-04-15 17:34:42,129 - ERROR - Database error: PostgreSQL text fields cannot contain NUL (0x00) bytes
+2025-04-15 17:34:42,229 - INFO - Successfully connected to database
+2025-04-15 17:34:42,230 - ERROR - Database error: PostgreSQL text fields cannot contain NUL (0x00) bytes
+2025-04-15 17:34:43,236 - ERROR - Database error: PostgreSQL text fields cannot contain NUL (0x00) bytes
+2025-04-15 17:34:44,242 - ERROR - Database error: PostgreSQL text fields cannot contain NUL (0x00) bytes
+2025-04-15 17:34:45,258 - ERROR - Database error: PostgreSQL text fields cannot contain NUL (0x00) bytes
+2025-04-15 17:34:46,263 - ERROR - Database error: PostgreSQL text fields cannot contain NUL (0x00) bytes
+2025-04-15 17:34:47,275 - ERROR - Database error: PostgreSQL text fields cannot contain NUL (0x00) bytes
+2025-04-15 17:34:48,290 - ERROR - Database error: PostgreSQL text fields cannot contain NUL (0x00) bytes
+2025-04-15 17:34:49,295 - ERROR - Database error: PostgreSQL text fields cannot contain NUL (0x00) bytes
+2025-04-15 17:34:50,304 - ERROR - Database error: PostgreSQL text fields cannot contain NUL (0x00) bytes
+2025-04-15 17:34:51,317 - ERROR - Database error: PostgreSQL text fields cannot contain NUL (0x00) bytes
+2025-04-15 17:34:52,334 - ERROR - Database error: PostgreSQL text fields cannot contain NUL (0x00) bytes
+2025-04-15 17:34:52,423 - INFO - Successfully connected to database
+2025-04-15 17:34:52,424 - ERROR - Database error: PostgreSQL text fields cannot contain NUL (0x00) bytes
+2025-04-15 17:34:53,428 - ERROR - Database error: PostgreSQL text fields cannot contain NUL (0x00) bytes
+2025-04-15 17:34:54,440 - ERROR - Database error: PostgreSQL text fields cannot contain NUL (0x00) bytes
+2025-04-15 17:34:55,457 - ERROR - Database error: PostgreSQL text fields cannot contain NUL (0x00) bytes
+2025-04-15 17:34:56,468 - ERROR - Database error: PostgreSQL text fields cannot contain NUL (0x00) bytes
+2025-04-15 17:34:57,474 - ERROR - Database error: PostgreSQL text fields cannot contain NUL (0x00) bytes
+2025-04-15 17:34:57,567 - INFO - Successfully connected to database
+2025-04-15 17:34:57,572 - ERROR - Database error: PostgreSQL text fields cannot contain NUL (0x00) bytes
+2025-04-15 17:34:58,576 - ERROR - Database error: PostgreSQL text fields cannot contain NUL (0x00) bytes
+2025-04-15 17:34:59,579 - ERROR - Database error: PostgreSQL text fields cannot contain NUL (0x00) bytes
+2025-04-15 17:34:59,779 - INFO - Successfully connected to database
+2025-04-15 17:34:59,781 - ERROR - Database error: PostgreSQL text fields cannot contain NUL (0x00) bytes
+2025-04-15 17:35:00,791 - ERROR - Database error: PostgreSQL text fields cannot contain NUL (0x00) bytes
+2025-04-15 17:35:01,801 - ERROR - Database error: PostgreSQL text fields cannot contain NUL (0x00) bytes
+2025-04-15 17:35:01,894 - INFO - Successfully connected to database
+2025-04-15 17:35:01,898 - ERROR - Database error: PostgreSQL text fields cannot contain NUL (0x00) bytes
+2025-04-15 17:35:02,903 - ERROR - Database error: PostgreSQL text fields cannot contain NUL (0x00) bytes
+2025-04-15 17:35:03,916 - ERROR - Database error: PostgreSQL text fields cannot contain NUL (0x00) bytes
+2025-04-15 17:35:04,930 - ERROR - Database error: PostgreSQL text fields cannot contain NUL (0x00) bytes
+2025-04-15 17:35:05,945 - ERROR - Database error: PostgreSQL text fields cannot contain NUL (0x00) bytes
+2025-04-15 17:35:06,955 - ERROR - Database error: PostgreSQL text fields cannot contain NUL (0x00) bytes
+2025-04-15 17:35:07,963 - ERROR - Database error: PostgreSQL text fields cannot contain NUL (0x00) bytes
+2025-04-15 17:35:08,974 - ERROR - Database error: PostgreSQL text fields cannot contain NUL (0x00) bytes
+2025-04-15 17:35:09,981 - ERROR - Database error: PostgreSQL text fields cannot contain NUL (0x00) bytes
+2025-04-15 17:35:10,993 - ERROR - Database error: PostgreSQL text fields cannot contain NUL (0x00) bytes
+2025-04-15 17:35:12,005 - ERROR - Database error: PostgreSQL text fields cannot contain NUL (0x00) bytes
+2025-04-15 17:35:13,019 - ERROR - Database error: PostgreSQL text fields cannot contain NUL (0x00) bytes
+2025-04-15 17:35:13,111 - INFO - Successfully connected to database
+2025-04-15 17:35:13,112 - ERROR - Database error: PostgreSQL text fields cannot contain NUL (0x00) bytes
+2025-04-15 17:35:14,116 - ERROR - Database error: PostgreSQL text fields cannot contain NUL (0x00) bytes
+2025-04-15 17:35:15,133 - ERROR - Database error: PostgreSQL text fields cannot contain NUL (0x00) bytes
+2025-04-15 17:35:16,141 - ERROR - Database error: PostgreSQL text fields cannot contain NUL (0x00) bytes
+2025-04-15 17:35:17,155 - ERROR - Database error: PostgreSQL text fields cannot contain NUL (0x00) bytes
+2025-04-15 17:35:18,169 - ERROR - Database error: PostgreSQL text fields cannot contain NUL (0x00) bytes
+2025-04-15 17:35:19,175 - ERROR - Database error: PostgreSQL text fields cannot contain NUL (0x00) bytes
+2025-04-15 17:35:20,190 - ERROR - Database error: PostgreSQL text fields cannot contain NUL (0x00) bytes
+2025-04-15 17:35:21,193 - ERROR - Database error: PostgreSQL text fields cannot contain NUL (0x00) bytes
+2025-04-15 17:35:22,199 - ERROR - Database error: PostgreSQL text fields cannot contain NUL (0x00) bytes
+2025-04-15 17:35:23,215 - ERROR - Database error: PostgreSQL text fields cannot contain NUL (0x00) bytes
+2025-04-15 17:35:24,223 - ERROR - Database error: PostgreSQL text fields cannot contain NUL (0x00) bytes
+2025-04-15 17:35:24,314 - INFO - Successfully connected to database
+2025-04-15 17:35:24,315 - ERROR - Database error: PostgreSQL text fields cannot contain NUL (0x00) bytes
+2025-04-15 17:35:25,320 - ERROR - Database error: PostgreSQL text fields cannot contain NUL (0x00) bytes
+2025-04-15 17:35:26,333 - ERROR - Database error: PostgreSQL text fields cannot contain NUL (0x00) bytes
+2025-04-15 17:35:27,336 - ERROR - Database error: PostgreSQL text fields cannot contain NUL (0x00) bytes
+2025-04-15 17:35:28,343 - ERROR - Database error: PostgreSQL text fields cannot contain NUL (0x00) bytes
+2025-04-15 17:35:29,349 - ERROR - Database error: PostgreSQL text fields cannot contain NUL (0x00) bytes
+2025-04-15 17:35:30,363 - ERROR - Database error: PostgreSQL text fields cannot contain NUL (0x00) bytes
+2025-04-15 17:35:31,367 - ERROR - Database error: PostgreSQL text fields cannot contain NUL (0x00) bytes
+2025-04-15 17:35:32,377 - ERROR - Database error: PostgreSQL text fields cannot contain NUL (0x00) bytes
+2025-04-15 17:35:32,582 - INFO - Successfully connected to database
+2025-04-15 17:35:32,584 - ERROR - Database error: PostgreSQL text fields cannot contain NUL (0x00) bytes
+2025-04-15 17:35:33,590 - ERROR - Database error: PostgreSQL text fields cannot contain NUL (0x00) bytes
+2025-04-15 17:35:34,607 - ERROR - Database error: PostgreSQL text fields cannot contain NUL (0x00) bytes
+2025-04-15 17:35:34,696 - INFO - Successfully connected to database
+2025-04-15 17:35:34,697 - ERROR - Database error: PostgreSQL text fields cannot contain NUL (0x00) bytes
+2025-04-15 17:35:35,703 - ERROR - Database error: PostgreSQL text fields cannot contain NUL (0x00) bytes
+2025-04-15 17:35:36,718 - ERROR - Database error: PostgreSQL text fields cannot contain NUL (0x00) bytes
+2025-04-15 17:35:37,721 - ERROR - Database error: PostgreSQL text fields cannot contain NUL (0x00) bytes
+2025-04-15 17:35:37,925 - INFO - Successfully connected to database
+2025-04-15 17:35:37,925 - ERROR - Database error: PostgreSQL text fields cannot contain NUL (0x00) bytes
+2025-04-15 17:35:38,933 - ERROR - Database error: PostgreSQL text fields cannot contain NUL (0x00) bytes
+2025-04-15 17:35:39,934 - ERROR - Database error: PostgreSQL text fields cannot contain NUL (0x00) bytes
+2025-04-15 17:35:40,936 - ERROR - Database error: PostgreSQL text fields cannot contain NUL (0x00) bytes
+2025-04-15 17:35:41,030 - INFO - Successfully connected to database
+2025-04-15 17:35:41,033 - ERROR - Database error: PostgreSQL text fields cannot contain NUL (0x00) bytes
+2025-04-15 17:35:42,050 - ERROR - Database error: PostgreSQL text fields cannot contain NUL (0x00) bytes
+2025-04-15 17:35:43,065 - ERROR - Database error: PostgreSQL text fields cannot contain NUL (0x00) bytes
+2025-04-15 17:35:44,070 - ERROR - Database error: PostgreSQL text fields cannot contain NUL (0x00) bytes
+2025-04-15 17:35:45,083 - ERROR - Database error: PostgreSQL text fields cannot contain NUL (0x00) bytes
+2025-04-15 17:35:46,088 - ERROR - Database error: PostgreSQL text fields cannot contain NUL (0x00) bytes
+2025-04-15 17:35:46,295 - INFO - Successfully connected to database
+2025-04-15 17:35:46,296 - ERROR - Database error: PostgreSQL text fields cannot contain NUL (0x00) bytes
+2025-04-15 17:35:47,306 - ERROR - Database error: PostgreSQL text fields cannot contain NUL (0x00) bytes
+2025-04-15 17:35:48,322 - ERROR - Database error: PostgreSQL text fields cannot contain NUL (0x00) bytes
+2025-04-15 17:35:49,339 - ERROR - Database error: PostgreSQL text fields cannot contain NUL (0x00) bytes
+2025-04-15 17:35:50,341 - ERROR - Database error: PostgreSQL text fields cannot contain NUL (0x00) bytes
+2025-04-15 17:35:51,351 - ERROR - Database error: PostgreSQL text fields cannot contain NUL (0x00) bytes
+2025-04-15 17:35:52,355 - ERROR - Database error: PostgreSQL text fields cannot contain NUL (0x00) bytes
+2025-04-15 17:35:53,359 - ERROR - Database error: PostgreSQL text fields cannot contain NUL (0x00) bytes
+2025-04-15 17:35:54,363 - ERROR - Database error: PostgreSQL text fields cannot contain NUL (0x00) bytes
+2025-04-15 17:35:55,378 - ERROR - Database error: PostgreSQL text fields cannot contain NUL (0x00) bytes
+2025-04-15 17:35:56,395 - ERROR - Database error: PostgreSQL text fields cannot contain NUL (0x00) bytes
+2025-04-15 17:35:57,405 - ERROR - Database error: PostgreSQL text fields cannot contain NUL (0x00) bytes
+2025-04-15 17:35:58,409 - ERROR - Database error: PostgreSQL text fields cannot contain NUL (0x00) bytes
+2025-04-15 17:35:59,424 - ERROR - Database error: PostgreSQL text fields cannot contain NUL (0x00) bytes
+2025-04-15 17:35:59,518 - INFO - Successfully connected to database
+2025-04-15 17:35:59,519 - ERROR - Database error: PostgreSQL text fields cannot contain NUL (0x00) bytes
+2025-04-15 17:36:00,529 - ERROR - Database error: PostgreSQL text fields cannot contain NUL (0x00) bytes
+2025-04-15 17:36:01,544 - ERROR - Database error: PostgreSQL text fields cannot contain NUL (0x00) bytes
+2025-04-15 17:36:02,556 - ERROR - Database error: PostgreSQL text fields cannot contain NUL (0x00) bytes
+2025-04-15 17:36:03,565 - ERROR - Database error: PostgreSQL text fields cannot contain NUL (0x00) bytes
+2025-04-15 17:36:04,581 - ERROR - Database error: PostgreSQL text fields cannot contain NUL (0x00) bytes
+2025-04-15 17:36:05,582 - ERROR - Database error: PostgreSQL text fields cannot contain NUL (0x00) bytes
+2025-04-15 17:36:06,592 - ERROR - Database error: PostgreSQL text fields cannot contain NUL (0x00) bytes
+2025-04-15 17:36:07,607 - ERROR - Database error: PostgreSQL text fields cannot contain NUL (0x00) bytes
+2025-04-15 17:36:08,616 - ERROR - Database error: PostgreSQL text fields cannot contain NUL (0x00) bytes
+2025-04-15 17:36:08,817 - INFO - Successfully connected to database
+2025-04-15 17:36:08,817 - ERROR - Database error: PostgreSQL text fields cannot contain NUL (0x00) bytes
+2025-04-15 17:36:09,824 - ERROR - Database error: PostgreSQL text fields cannot contain NUL (0x00) bytes
+2025-04-15 17:36:10,835 - ERROR - Database error: PostgreSQL text fields cannot contain NUL (0x00) bytes
+2025-04-15 17:36:10,925 - INFO - Successfully connected to database
+2025-04-15 17:36:10,928 - ERROR - Database error: PostgreSQL text fields cannot contain NUL (0x00) bytes
+2025-04-15 17:36:11,937 - ERROR - Database error: PostgreSQL text fields cannot contain NUL (0x00) bytes
+2025-04-15 17:36:12,949 - ERROR - Database error: PostgreSQL text fields cannot contain NUL (0x00) bytes
+2025-04-15 17:36:13,958 - ERROR - Database error: PostgreSQL text fields cannot contain NUL (0x00) bytes
+2025-04-15 17:36:14,974 - ERROR - Database error: PostgreSQL text fields cannot contain NUL (0x00) bytes
+2025-04-15 17:36:15,976 - ERROR - Database error: PostgreSQL text fields cannot contain NUL (0x00) bytes
+2025-04-15 17:36:16,978 - ERROR - Database error: PostgreSQL text fields cannot contain NUL (0x00) bytes
+2025-04-15 17:36:17,181 - INFO - Successfully connected to database
+2025-04-15 17:36:17,193 - ERROR - Database error: PostgreSQL text fields cannot contain NUL (0x00) bytes
+2025-04-15 17:36:18,198 - ERROR - Database error: PostgreSQL text fields cannot contain NUL (0x00) bytes
+2025-04-15 17:36:19,213 - ERROR - Database error: PostgreSQL text fields cannot contain NUL (0x00) bytes
+2025-04-15 17:36:20,225 - ERROR - Database error: PostgreSQL text fields cannot contain NUL (0x00) bytes
+2025-04-15 17:36:21,229 - ERROR - Database error: PostgreSQL text fields cannot contain NUL (0x00) bytes
+2025-04-15 17:36:22,233 - ERROR - Database error: PostgreSQL text fields cannot contain NUL (0x00) bytes
+2025-04-15 17:36:22,331 - INFO - Successfully connected to database
+2025-04-15 17:36:22,332 - ERROR - Database error: PostgreSQL text fields cannot contain NUL (0x00) bytes
+2025-04-15 17:36:23,348 - ERROR - Database error: PostgreSQL text fields cannot contain NUL (0x00) bytes
+2025-04-15 17:36:24,361 - ERROR - Database error: PostgreSQL text fields cannot contain NUL (0x00) bytes
+2025-04-15 17:36:25,368 - ERROR - Database error: PostgreSQL text fields cannot contain NUL (0x00) bytes
+2025-04-15 17:36:26,384 - ERROR - Database error: PostgreSQL text fields cannot contain NUL (0x00) bytes
+2025-04-15 17:36:27,398 - ERROR - Database error: PostgreSQL text fields cannot contain NUL (0x00) bytes
+2025-04-15 17:36:28,406 - ERROR - Database error: PostgreSQL text fields cannot contain NUL (0x00) bytes
+2025-04-15 17:36:29,420 - ERROR - Database error: PostgreSQL text fields cannot contain NUL (0x00) bytes
+2025-04-15 17:36:30,434 - ERROR - Database error: PostgreSQL text fields cannot contain NUL (0x00) bytes
+2025-04-15 17:36:31,446 - ERROR - Database error: PostgreSQL text fields cannot contain NUL (0x00) bytes
+2025-04-15 17:36:32,458 - ERROR - Database error: PostgreSQL text fields cannot contain NUL (0x00) bytes
+2025-04-15 17:36:33,465 - ERROR - Database error: PostgreSQL text fields cannot contain NUL (0x00) bytes
+2025-04-15 17:36:34,477 - ERROR - Database error: PostgreSQL text fields cannot contain NUL (0x00) bytes
+2025-04-15 17:36:35,489 - ERROR - Database error: PostgreSQL text fields cannot contain NUL (0x00) bytes
+2025-04-15 17:36:36,505 - ERROR - Database error: PostgreSQL text fields cannot contain NUL (0x00) bytes
+2025-04-15 17:36:37,519 - ERROR - Database error: PostgreSQL text fields cannot contain NUL (0x00) bytes
+2025-04-15 17:36:38,528 - ERROR - Database error: PostgreSQL text fields cannot contain NUL (0x00) bytes
+2025-04-15 17:36:39,540 - ERROR - Database error: PostgreSQL text fields cannot contain NUL (0x00) bytes
+2025-04-15 17:36:40,543 - ERROR - Database error: PostgreSQL text fields cannot contain NUL (0x00) bytes
+2025-04-15 17:36:40,741 - INFO - Successfully connected to database
+2025-04-15 17:36:40,745 - ERROR - Database error: PostgreSQL text fields cannot contain NUL (0x00) bytes
+2025-04-15 17:36:41,760 - ERROR - Database error: PostgreSQL text fields cannot contain NUL (0x00) bytes
+2025-04-15 17:36:42,760 - ERROR - Database error: PostgreSQL text fields cannot contain NUL (0x00) bytes
+2025-04-15 17:36:42,853 - INFO - Successfully connected to database
+2025-04-15 17:36:42,854 - ERROR - Database error: PostgreSQL text fields cannot contain NUL (0x00) bytes
+2025-04-15 17:36:43,873 - ERROR - Database error: PostgreSQL text fields cannot contain NUL (0x00) bytes
+2025-04-15 17:36:44,890 - ERROR - Database error: PostgreSQL text fields cannot contain NUL (0x00) bytes
+2025-04-15 17:36:45,904 - ERROR - Database error: PostgreSQL text fields cannot contain NUL (0x00) bytes
+2025-04-15 17:36:46,909 - ERROR - Database error: PostgreSQL text fields cannot contain NUL (0x00) bytes
+2025-04-15 17:36:47,913 - ERROR - Database error: PostgreSQL text fields cannot contain NUL (0x00) bytes
+2025-04-15 17:36:48,926 - ERROR - Database error: PostgreSQL text fields cannot contain NUL (0x00) bytes
+2025-04-15 17:36:49,929 - ERROR - Database error: PostgreSQL text fields cannot contain NUL (0x00) bytes
+2025-04-15 17:36:50,933 - ERROR - Database error: PostgreSQL text fields cannot contain NUL (0x00) bytes
+2025-04-15 17:36:51,936 - ERROR - Database error: PostgreSQL text fields cannot contain NUL (0x00) bytes
+2025-04-15 17:36:52,040 - INFO - Successfully connected to database
+2025-04-15 17:36:52,043 - ERROR - Database error: PostgreSQL text fields cannot contain NUL (0x00) bytes
+2025-04-15 17:36:53,046 - ERROR - Database error: PostgreSQL text fields cannot contain NUL (0x00) bytes
+2025-04-15 17:36:54,057 - ERROR - Database error: PostgreSQL text fields cannot contain NUL (0x00) bytes
+2025-04-15 17:36:54,148 - INFO - Successfully connected to database
+2025-04-15 17:36:54,150 - ERROR - Database error: PostgreSQL text fields cannot contain NUL (0x00) bytes
+2025-04-15 17:36:55,165 - ERROR - Database error: PostgreSQL text fields cannot contain NUL (0x00) bytes
+2025-04-15 17:36:56,169 - ERROR - Database error: PostgreSQL text fields cannot contain NUL (0x00) bytes
+2025-04-15 17:36:56,377 - INFO - Successfully connected to database
+2025-04-15 17:36:56,380 - ERROR - Database error: PostgreSQL text fields cannot contain NUL (0x00) bytes
+2025-04-15 17:36:57,387 - ERROR - Database error: PostgreSQL text fields cannot contain NUL (0x00) bytes
+2025-04-15 17:36:58,402 - ERROR - Database error: PostgreSQL text fields cannot contain NUL (0x00) bytes
+2025-04-15 17:36:59,412 - ERROR - Database error: PostgreSQL text fields cannot contain NUL (0x00) bytes
+2025-04-15 17:36:59,504 - INFO - Successfully connected to database
+2025-04-15 17:36:59,505 - ERROR - Database error: PostgreSQL text fields cannot contain NUL (0x00) bytes
+2025-04-15 17:37:00,511 - ERROR - Database error: PostgreSQL text fields cannot contain NUL (0x00) bytes
+2025-04-15 17:37:01,522 - ERROR - Database error: PostgreSQL text fields cannot contain NUL (0x00) bytes
+2025-04-15 17:37:02,526 - ERROR - Database error: PostgreSQL text fields cannot contain NUL (0x00) bytes
+2025-04-15 17:37:02,619 - INFO - Successfully connected to database
+2025-04-15 17:37:02,619 - ERROR - Database error: PostgreSQL text fields cannot contain NUL (0x00) bytes
+2025-04-15 17:37:03,635 - ERROR - Database error: PostgreSQL text fields cannot contain NUL (0x00) bytes
+2025-04-15 17:37:04,650 - ERROR - Database error: PostgreSQL text fields cannot contain NUL (0x00) bytes
+2025-04-15 17:37:05,662 - ERROR - Database error: PostgreSQL text fields cannot contain NUL (0x00) bytes
+2025-04-15 17:37:06,670 - ERROR - Database error: PostgreSQL text fields cannot contain NUL (0x00) bytes
+2025-04-15 17:37:07,677 - ERROR - Database error: PostgreSQL text fields cannot contain NUL (0x00) bytes
+2025-04-15 17:37:08,687 - ERROR - Database error: PostgreSQL text fields cannot contain NUL (0x00) bytes
+2025-04-15 17:37:09,701 - ERROR - Database error: PostgreSQL text fields cannot contain NUL (0x00) bytes
+2025-04-15 17:37:10,708 - ERROR - Database error: PostgreSQL text fields cannot contain NUL (0x00) bytes
+2025-04-15 17:37:11,718 - ERROR - Database error: PostgreSQL text fields cannot contain NUL (0x00) bytes
+2025-04-15 17:37:12,722 - ERROR - Database error: PostgreSQL text fields cannot contain NUL (0x00) bytes
+2025-04-15 17:37:13,726 - ERROR - Database error: PostgreSQL text fields cannot contain NUL (0x00) bytes
+2025-04-15 17:37:14,738 - ERROR - Database error: PostgreSQL text fields cannot contain NUL (0x00) bytes
+2025-04-15 17:37:15,750 - ERROR - Database error: PostgreSQL text fields cannot contain NUL (0x00) bytes
+2025-04-15 17:37:16,752 - ERROR - Database error: PostgreSQL text fields cannot contain NUL (0x00) bytes
+2025-04-15 17:37:16,846 - INFO - Successfully connected to database
+2025-04-15 17:37:16,847 - ERROR - Database error: PostgreSQL text fields cannot contain NUL (0x00) bytes
+2025-04-15 17:37:17,852 - ERROR - Database error: PostgreSQL text fields cannot contain NUL (0x00) bytes
+2025-04-15 17:37:18,857 - ERROR - Database error: PostgreSQL text fields cannot contain NUL (0x00) bytes
+2025-04-15 17:37:19,876 - ERROR - Database error: PostgreSQL text fields cannot contain NUL (0x00) bytes
+2025-04-15 17:37:20,884 - ERROR - Database error: PostgreSQL text fields cannot contain NUL (0x00) bytes
+2025-04-15 17:37:21,897 - ERROR - Database error: PostgreSQL text fields cannot contain NUL (0x00) bytes
+2025-04-15 17:37:22,901 - ERROR - Database error: PostgreSQL text fields cannot contain NUL (0x00) bytes
+2025-04-15 17:37:23,909 - ERROR - Database error: PostgreSQL text fields cannot contain NUL (0x00) bytes
+2025-04-15 17:37:24,920 - ERROR - Database error: PostgreSQL text fields cannot contain NUL (0x00) bytes
+2025-04-15 17:37:25,011 - INFO - Successfully connected to database
+2025-04-15 17:37:25,013 - ERROR - Database error: PostgreSQL text fields cannot contain NUL (0x00) bytes
+2025-04-15 17:37:26,024 - ERROR - Database error: PostgreSQL text fields cannot contain NUL (0x00) bytes
+2025-04-15 17:37:27,034 - ERROR - Database error: PostgreSQL text fields cannot contain NUL (0x00) bytes
+2025-04-15 17:37:28,034 - ERROR - Database error: PostgreSQL text fields cannot contain NUL (0x00) bytes
+2025-04-15 17:37:29,044 - ERROR - Database error: PostgreSQL text fields cannot contain NUL (0x00) bytes
+2025-04-15 17:41:03,860 - INFO - Successfully connected to database
+2025-04-15 17:41:03,862 - INFO - Traffic collector started successfully
+2025-04-15 17:41:04,119 - ERROR - Database error: PostgreSQL text fields cannot contain NUL (0x00) bytes
+2025-04-15 17:41:05,122 - ERROR - Database error: PostgreSQL text fields cannot contain NUL (0x00) bytes
+2025-04-15 17:41:06,126 - ERROR - Database error: PostgreSQL text fields cannot contain NUL (0x00) bytes
+2025-04-15 17:41:07,132 - ERROR - Database error: PostgreSQL text fields cannot contain NUL (0x00) bytes
+2025-04-15 17:41:08,139 - ERROR - Database error: PostgreSQL text fields cannot contain NUL (0x00) bytes
+2025-04-15 17:41:08,337 - INFO - Successfully connected to database
+2025-04-15 17:41:08,339 - ERROR - Database error: PostgreSQL text fields cannot contain NUL (0x00) bytes
+2025-04-15 17:47:57,775 - INFO - Successfully connected to database
+2025-04-15 17:47:57,777 - INFO - Traffic collector started successfully
+2025-04-15 17:48:05,372 - ERROR - Database error: PostgreSQL text fields cannot contain NUL (0x00) bytes
+2025-04-15 17:48:06,378 - ERROR - Database error: PostgreSQL text fields cannot contain NUL (0x00) bytes
+2025-04-15 17:48:07,392 - ERROR - Database error: PostgreSQL text fields cannot contain NUL (0x00) bytes
+2025-04-15 17:48:07,480 - INFO - Successfully connected to database
+2025-04-15 17:48:07,480 - ERROR - Database error: PostgreSQL text fields cannot contain NUL (0x00) bytes
+2025-04-15 17:48:08,494 - ERROR - Database error: PostgreSQL text fields cannot contain NUL (0x00) bytes
+2025-04-15 17:48:09,510 - ERROR - Database error: PostgreSQL text fields cannot contain NUL (0x00) bytes
+2025-04-15 17:48:09,710 - INFO - Successfully connected to database
+2025-04-15 17:48:09,710 - ERROR - Database error: PostgreSQL text fields cannot contain NUL (0x00) bytes
+2025-04-15 17:48:10,720 - ERROR - Database error: PostgreSQL text fields cannot contain NUL (0x00) bytes
+2025-04-15 17:48:11,722 - ERROR - Database error: PostgreSQL text fields cannot contain NUL (0x00) bytes
+2025-04-15 17:48:12,735 - ERROR - Database error: PostgreSQL text fields cannot contain NUL (0x00) bytes
+2025-04-15 17:48:12,827 - INFO - Successfully connected to database
+2025-04-15 17:48:12,830 - ERROR - Database error: PostgreSQL text fields cannot contain NUL (0x00) bytes
+2025-04-15 17:48:13,843 - ERROR - Database error: PostgreSQL text fields cannot contain NUL (0x00) bytes
+2025-04-15 17:48:14,854 - ERROR - Database error: PostgreSQL text fields cannot contain NUL (0x00) bytes
+2025-04-15 17:48:15,872 - ERROR - Database error: PostgreSQL text fields cannot contain NUL (0x00) bytes
+2025-04-15 17:48:16,886 - ERROR - Database error: PostgreSQL text fields cannot contain NUL (0x00) bytes
+2025-04-15 17:48:17,890 - ERROR - Database error: PostgreSQL text fields cannot contain NUL (0x00) bytes
+2025-04-15 17:48:18,894 - ERROR - Database error: PostgreSQL text fields cannot contain NUL (0x00) bytes
+2025-04-15 17:48:18,981 - INFO - Successfully connected to database
+2025-04-15 17:48:18,984 - ERROR - Database error: PostgreSQL text fields cannot contain NUL (0x00) bytes
+2025-04-15 17:48:19,997 - ERROR - Database error: PostgreSQL text fields cannot contain NUL (0x00) bytes
+2025-04-15 17:48:21,002 - ERROR - Database error: PostgreSQL text fields cannot contain NUL (0x00) bytes
+2025-04-15 17:48:21,089 - INFO - Successfully connected to database
+2025-04-15 17:48:21,092 - ERROR - Database error: PostgreSQL text fields cannot contain NUL (0x00) bytes
+2025-04-15 17:48:22,096 - ERROR - Database error: PostgreSQL text fields cannot contain NUL (0x00) bytes
+2025-04-15 17:48:23,112 - ERROR - Database error: PostgreSQL text fields cannot contain NUL (0x00) bytes
+2025-04-15 17:48:23,310 - INFO - Successfully connected to database
+2025-04-15 17:48:23,313 - ERROR - Database error: PostgreSQL text fields cannot contain NUL (0x00) bytes
+2025-04-15 17:48:24,322 - ERROR - Database error: PostgreSQL text fields cannot contain NUL (0x00) bytes
+2025-04-15 17:53:31,821 - INFO - Successfully connected to database
+2025-04-15 17:53:31,824 - INFO - Traffic collector started successfully
+2025-04-15 17:53:31,915 - ERROR - Database error: PostgreSQL text fields cannot contain NUL (0x00) bytes
+2025-04-15 17:53:32,925 - ERROR - Database error: PostgreSQL text fields cannot contain NUL (0x00) bytes
+2025-04-15 17:53:33,931 - ERROR - Database error: PostgreSQL text fields cannot contain NUL (0x00) bytes
+2025-04-15 17:53:34,937 - ERROR - Database error: PostgreSQL text fields cannot contain NUL (0x00) bytes
+2025-04-15 17:59:49,142 - INFO - Successfully connected to database
+2025-04-15 17:59:49,144 - INFO - Traffic collector started successfully
+2025-04-15 17:59:50,092 - ERROR - Database error: PostgreSQL text fields cannot contain NUL (0x00) bytes
+2025-04-15 17:59:51,101 - ERROR - Database error: PostgreSQL text fields cannot contain NUL (0x00) bytes
+2025-04-15 17:59:52,110 - ERROR - Database error: PostgreSQL text fields cannot contain NUL (0x00) bytes
+2025-04-15 17:59:52,298 - INFO - Successfully connected to database
+2025-04-15 17:59:52,302 - ERROR - Database error: PostgreSQL text fields cannot contain NUL (0x00) bytes
+2025-04-15 17:59:53,310 - ERROR - Database error: PostgreSQL text fields cannot contain NUL (0x00) bytes
+2025-04-15 17:59:54,320 - ERROR - Database error: PostgreSQL text fields cannot contain NUL (0x00) bytes
+2025-04-15 17:59:55,328 - ERROR - Database error: PostgreSQL text fields cannot contain NUL (0x00) bytes
+2025-04-15 17:59:56,338 - ERROR - Database error: PostgreSQL text fields cannot contain NUL (0x00) bytes
+2025-04-15 17:59:56,427 - INFO - Successfully connected to database
+2025-04-15 17:59:56,431 - ERROR - Database error: PostgreSQL text fields cannot contain NUL (0x00) bytes
+2025-04-15 17:59:57,442 - ERROR - Database error: PostgreSQL text fields cannot contain NUL (0x00) bytes
+2025-04-15 17:59:58,449 - ERROR - Database error: PostgreSQL text fields cannot contain NUL (0x00) bytes
+2025-04-15 17:59:58,539 - INFO - Successfully connected to database
+2025-04-15 17:59:58,543 - ERROR - Database error: PostgreSQL text fields cannot contain NUL (0x00) bytes
+2025-04-15 17:59:59,553 - ERROR - Database error: PostgreSQL text fields cannot contain NUL (0x00) bytes
+2025-04-15 18:00:00,565 - ERROR - Database error: PostgreSQL text fields cannot contain NUL (0x00) bytes
+2025-04-15 18:00:00,652 - INFO - Successfully connected to database
+2025-04-15 18:00:00,653 - ERROR - Database error: PostgreSQL text fields cannot contain NUL (0x00) bytes
+2025-04-15 18:00:01,663 - ERROR - Database error: PostgreSQL text fields cannot contain NUL (0x00) bytes
+2025-04-15 18:00:02,680 - ERROR - Database error: PostgreSQL text fields cannot contain NUL (0x00) bytes
+2025-04-15 18:00:03,690 - ERROR - Database error: PostgreSQL text fields cannot contain NUL (0x00) bytes
+2025-04-15 18:00:04,704 - ERROR - Database error: PostgreSQL text fields cannot contain NUL (0x00) bytes
+2025-04-15 18:00:04,793 - INFO - Successfully connected to database
+2025-04-15 18:00:04,794 - ERROR - Database error: PostgreSQL text fields cannot contain NUL (0x00) bytes
+2025-04-15 18:00:05,811 - ERROR - Database error: PostgreSQL text fields cannot contain NUL (0x00) bytes
+2025-04-15 18:01:23,146 - INFO - Successfully connected to database
+2025-04-15 18:01:23,148 - INFO - Traffic collector started successfully
+2025-04-15 18:01:24,038 - ERROR - Database error: PostgreSQL text fields cannot contain NUL (0x00) bytes
+2025-04-15 18:01:25,045 - ERROR - Database error: PostgreSQL text fields cannot contain NUL (0x00) bytes
+2025-04-15 18:01:26,058 - ERROR - Database error: PostgreSQL text fields cannot contain NUL (0x00) bytes
+2025-04-15 18:01:27,074 - ERROR - Database error: PostgreSQL text fields cannot contain NUL (0x00) bytes
+2025-04-15 18:01:28,090 - ERROR - Database error: PostgreSQL text fields cannot contain NUL (0x00) bytes
+2025-04-15 18:01:29,097 - ERROR - Database error: PostgreSQL text fields cannot contain NUL (0x00) bytes
+2025-04-15 18:01:29,198 - INFO - Successfully connected to database
+2025-04-15 18:01:29,199 - ERROR - Database error: PostgreSQL text fields cannot contain NUL (0x00) bytes
+2025-04-15 18:01:30,215 - ERROR - Database error: PostgreSQL text fields cannot contain NUL (0x00) bytes
+2025-04-15 18:01:31,226 - ERROR - Database error: PostgreSQL text fields cannot contain NUL (0x00) bytes
+2025-04-15 18:01:32,237 - ERROR - Database error: PostgreSQL text fields cannot contain NUL (0x00) bytes
+2025-04-15 18:01:33,256 - ERROR - Database error: PostgreSQL text fields cannot contain NUL (0x00) bytes
+2025-04-15 18:01:34,263 - ERROR - Database error: PostgreSQL text fields cannot contain NUL (0x00) bytes
+2025-04-15 18:03:04,814 - INFO - Successfully connected to database
+2025-04-15 18:03:04,818 - INFO - Traffic collector started successfully
+2025-04-15 18:07:07,555 - INFO - Successfully connected to database
+2025-04-15 18:07:07,557 - INFO - Traffic collector started successfully
+2025-04-15 18:07:12,025 - ERROR - Database error: PostgreSQL text fields cannot contain NUL (0x00) bytes
+2025-04-15 18:07:13,039 - ERROR - Database error: PostgreSQL text fields cannot contain NUL (0x00) bytes
+2025-04-15 18:07:14,048 - ERROR - Database error: PostgreSQL text fields cannot contain NUL (0x00) bytes
+2025-04-15 18:07:15,052 - ERROR - Database error: PostgreSQL text fields cannot contain NUL (0x00) bytes
+2025-04-15 18:07:16,069 - ERROR - Database error: PostgreSQL text fields cannot contain NUL (0x00) bytes
+2025-04-15 18:07:17,082 - ERROR - Database error: PostgreSQL text fields cannot contain NUL (0x00) bytes
+2025-04-15 18:07:18,088 - ERROR - Database error: PostgreSQL text fields cannot contain NUL (0x00) bytes
+2025-04-15 18:07:18,183 - INFO - Successfully connected to database
+2025-04-15 18:07:18,183 - ERROR - Database error: PostgreSQL text fields cannot contain NUL (0x00) bytes
+2025-04-15 18:07:19,197 - ERROR - Database error: PostgreSQL text fields cannot contain NUL (0x00) bytes
+2025-04-15 18:07:20,204 - ERROR - Database error: PostgreSQL text fields cannot contain NUL (0x00) bytes
+2025-04-15 18:07:21,217 - ERROR - Database error: PostgreSQL text fields cannot contain NUL (0x00) bytes
+2025-04-15 18:07:22,220 - ERROR - Database error: PostgreSQL text fields cannot contain NUL (0x00) bytes
+2025-04-15 18:07:23,233 - ERROR - Database error: PostgreSQL text fields cannot contain NUL (0x00) bytes
+2025-04-15 18:07:24,246 - ERROR - Database error: PostgreSQL text fields cannot contain NUL (0x00) bytes
+2025-04-15 18:07:25,251 - ERROR - Database error: PostgreSQL text fields cannot contain NUL (0x00) bytes
+2025-04-15 18:07:26,262 - ERROR - Database error: PostgreSQL text fields cannot contain NUL (0x00) bytes
+2025-04-15 18:07:27,275 - ERROR - Database error: PostgreSQL text fields cannot contain NUL (0x00) bytes
+2025-04-15 18:07:28,282 - ERROR - Database error: PostgreSQL text fields cannot contain NUL (0x00) bytes
+2025-04-15 18:07:29,297 - ERROR - Database error: PostgreSQL text fields cannot contain NUL (0x00) bytes
+2025-04-15 18:07:30,310 - ERROR - Database error: PostgreSQL text fields cannot contain NUL (0x00) bytes
+2025-04-15 18:07:30,399 - INFO - Successfully connected to database
+2025-04-15 18:07:30,402 - ERROR - Database error: PostgreSQL text fields cannot contain NUL (0x00) bytes
+2025-04-15 18:07:31,413 - ERROR - Database error: PostgreSQL text fields cannot contain NUL (0x00) bytes
+2025-04-15 18:07:32,427 - ERROR - Database error: PostgreSQL text fields cannot contain NUL (0x00) bytes
+2025-04-15 18:07:32,515 - INFO - Successfully connected to database
+2025-04-15 18:07:32,517 - ERROR - Database error: PostgreSQL text fields cannot contain NUL (0x00) bytes
+2025-04-15 18:07:33,522 - ERROR - Database error: PostgreSQL text fields cannot contain NUL (0x00) bytes
+2025-04-15 18:07:34,528 - ERROR - Database error: PostgreSQL text fields cannot contain NUL (0x00) bytes
+2025-04-15 18:07:35,544 - ERROR - Database error: PostgreSQL text fields cannot contain NUL (0x00) bytes
+2025-04-15 18:07:35,747 - INFO - Successfully connected to database
+2025-04-15 18:07:35,749 - ERROR - Database error: PostgreSQL text fields cannot contain NUL (0x00) bytes
+2025-04-15 18:07:36,759 - ERROR - Database error: PostgreSQL text fields cannot contain NUL (0x00) bytes
+2025-04-15 18:07:37,776 - ERROR - Database error: PostgreSQL text fields cannot contain NUL (0x00) bytes
+2025-04-15 18:07:38,788 - ERROR - Database error: PostgreSQL text fields cannot contain NUL (0x00) bytes
+2025-04-15 18:07:39,800 - ERROR - Database error: PostgreSQL text fields cannot contain NUL (0x00) bytes
+2025-04-15 18:07:40,806 - ERROR - Database error: PostgreSQL text fields cannot contain NUL (0x00) bytes
+2025-04-15 18:07:41,815 - ERROR - Database error: PostgreSQL text fields cannot contain NUL (0x00) bytes
+2025-04-15 18:07:42,831 - ERROR - Database error: PostgreSQL text fields cannot contain NUL (0x00) bytes
+2025-04-15 18:07:43,842 - ERROR - Database error: PostgreSQL text fields cannot contain NUL (0x00) bytes
+2025-04-15 18:07:44,854 - ERROR - Database error: PostgreSQL text fields cannot contain NUL (0x00) bytes
+2025-04-15 18:07:44,939 - INFO - Successfully connected to database
+2025-04-15 18:07:44,939 - ERROR - Database error: PostgreSQL text fields cannot contain NUL (0x00) bytes
+2025-04-15 18:07:45,944 - ERROR - Database error: PostgreSQL text fields cannot contain NUL (0x00) bytes
+2025-04-15 18:07:46,960 - ERROR - Database error: PostgreSQL text fields cannot contain NUL (0x00) bytes
+2025-04-15 18:07:47,046 - INFO - Successfully connected to database
+2025-04-15 18:07:47,048 - ERROR - Database error: PostgreSQL text fields cannot contain NUL (0x00) bytes
+2025-04-15 18:07:48,055 - ERROR - Database error: PostgreSQL text fields cannot contain NUL (0x00) bytes
+2025-04-15 18:08:13,866 - INFO - Successfully connected to database
+2025-04-15 18:08:13,867 - INFO - Traffic collector started successfully
+2025-04-15 18:08:53,202 - INFO - Successfully connected to database
+2025-04-15 18:08:53,204 - INFO - Traffic collector started successfully
+2025-04-15 18:11:10,607 - INFO - Successfully connected to database
+2025-04-15 18:11:10,608 - INFO - Traffic collector started successfully
+2025-04-15 18:11:11,483 - ERROR - Database error: PostgreSQL text fields cannot contain NUL (0x00) bytes
+2025-04-15 18:11:12,495 - ERROR - Database error: PostgreSQL text fields cannot contain NUL (0x00) bytes
+2025-04-15 18:11:13,511 - ERROR - Database error: PostgreSQL text fields cannot contain NUL (0x00) bytes
+2025-04-15 18:11:14,524 - ERROR - Database error: PostgreSQL text fields cannot contain NUL (0x00) bytes
+2025-04-15 18:11:15,536 - ERROR - Database error: PostgreSQL text fields cannot contain NUL (0x00) bytes
+2025-04-15 18:11:44,742 - INFO - Successfully connected to database
+2025-04-15 18:11:44,744 - INFO - Traffic collector started successfully
+2025-04-15 18:12:25,488 - INFO - Successfully connected to database
+2025-04-15 18:12:25,489 - INFO - Traffic collector started successfully
+2025-04-15 18:12:47,071 - INFO - Successfully connected to database
+2025-04-15 18:12:47,073 - INFO - Traffic collector started successfully
+2025-04-15 18:13:44,511 - INFO - Successfully connected to database
+2025-04-15 18:13:44,513 - INFO - Traffic collector started successfully
+2025-04-15 18:14:30,398 - INFO - Successfully connected to database
+2025-04-15 18:14:30,399 - INFO - Traffic collector started successfully
+2025-04-15 18:43:10,653 - INFO - Successfully connected to database
+2025-04-15 18:43:10,656 - INFO - Traffic collector started successfully
+2025-04-15 19:50:43,318 - INFO - Successfully connected to database
+2025-04-15 19:50:43,320 - INFO - Traffic collector started successfully
+2025-04-15 19:59:44,318 - INFO - Successfully connected to database
+2025-04-15 19:59:44,319 - INFO - Traffic collector started successfully
+2025-04-16 14:26:43,250 - INFO - Successfully connected to database
+2025-04-16 14:26:43,252 - INFO - Traffic collector started successfully
+2025-04-16 14:34:34,482 - INFO - Successfully connected to database
+2025-04-16 14:34:34,484 - INFO - Traffic collector started successfully
+2025-04-16 14:36:08,192 - INFO - Successfully connected to database
+2025-04-16 14:36:08,194 - INFO - Traffic collector started successfully
+2025-04-19 21:12:24,817 - INFO - Successfully connected to database
+2025-04-19 21:12:24,818 - INFO - Traffic collector started successfully
+2025-04-19 22:25:33,275 - INFO - Successfully connected to database
+2025-04-19 22:25:33,278 - INFO - Traffic collector started successfully
+2025-04-19 22:46:48,852 - INFO - Successfully connected to database
+2025-04-19 22:46:48,853 - INFO - Traffic collector started successfully
+2025-04-19 22:51:40,593 - INFO - Successfully connected to database
+2025-04-19 22:51:40,594 - INFO - Traffic collector started successfully
+2025-04-19 22:56:46,996 - INFO - Successfully connected to database
+2025-04-19 22:56:46,998 - INFO - Traffic collector started successfully
+2025-04-19 22:56:53,076 - INFO - Traffic collector stopped
+2025-04-19 22:57:55,192 - INFO - Successfully connected to database
+2025-04-19 22:57:55,195 - INFO - Traffic collector started successfully
+2025-04-19 22:59:21,079 - INFO - Successfully connected to database
+2025-04-19 22:59:21,081 - INFO - Traffic collector started successfully
+2025-04-19 23:06:01,449 - INFO - Successfully connected to database
+2025-04-19 23:06:01,451 - INFO - Traffic collector started successfully
+2025-04-20 22:45:55,651 - INFO - Successfully connected to database
+2025-04-20 22:45:55,653 - INFO - Traffic collector started successfully
+2025-04-21 21:54:18,375 - INFO - Successfully connected to database
+2025-04-21 21:54:18,377 - INFO - Traffic collector started successfully
+2025-04-21 21:55:35,758 - INFO - Successfully connected to database
+2025-04-21 21:55:35,760 - INFO - Traffic collector started successfully
+2025-04-21 21:56:06,230 - INFO - Successfully connected to database
+2025-04-21 21:56:06,233 - INFO - Traffic collector started successfully
+2025-04-21 21:56:54,111 - INFO - Successfully connected to database
+2025-04-21 21:56:54,113 - INFO - Traffic collector started successfully
+2025-04-21 21:58:55,178 - INFO - Successfully connected to database
+2025-04-21 21:58:55,180 - INFO - Traffic collector started successfully
+2025-04-21 22:00:20,021 - INFO - Successfully connected to database
+2025-04-21 22:00:20,023 - INFO - Traffic collector started successfully
