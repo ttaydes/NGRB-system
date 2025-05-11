@@ -6,40 +6,51 @@ class Host(db.Model):
     
     id = db.Column(db.Integer, primary_key=True)
     hostname = db.Column(db.String(255), nullable=False)
-    ip = db.Column(db.String(45), nullable=False)  # Support for IPv6
-    os = db.Column(db.String(100))
-    status = db.Column(db.String(20), default='unknown')
+    ip_address = db.Column(db.String(50), nullable=False)
+    os_type = db.Column(db.String(50))  # Linux/Windows
+    os_version = db.Column(db.String(100))
+    status = db.Column(db.String(20), default='offline')  # online/offline
+    last_seen = db.Column(db.DateTime, default=datetime.utcnow)
+    created_at = db.Column(db.DateTime, default=datetime.utcnow)
+    updated_at = db.Column(db.DateTime, default=datetime.utcnow, onupdate=datetime.utcnow)
+
+class ProcessInfo(db.Model):
+    __tablename__ = 'process_info'
+    
+    id = db.Column(db.Integer, primary_key=True)
+    host_id = db.Column(db.Integer, db.ForeignKey('hosts.id'))
+    process_name = db.Column(db.String(255))
+    pid = db.Column(db.Integer)
+    connections = db.Column(db.JSON)
+    user = db.Column(db.String(100))
     cpu_usage = db.Column(db.Float)
     memory_usage = db.Column(db.Float)
-    last_seen = db.Column(db.DateTime, default=datetime.now)
-    created_at = db.Column(db.DateTime, default=datetime.now)
+    start_time = db.Column(db.DateTime)
+    command_line = db.Column(db.Text)
+    created_at = db.Column(db.DateTime, default=datetime.utcnow)
+
+class ServiceInfo(db.Model):
+    __tablename__ = 'service_info'
     
-    def to_dict(self):
-        return {
-            'id': self.id,
-            'hostname': self.hostname,
-            'ip': self.ip,
-            'os': self.os,
-            'status': self.status,
-            'cpu_usage': self.cpu_usage,
-            'memory_usage': self.memory_usage,
-            'last_seen': self.last_seen.isoformat() if self.last_seen else None,
-            'created_at': self.created_at.isoformat() if self.created_at else None,
-            'alerts': self.get_recent_alerts()
-        }
+    id = db.Column(db.Integer, primary_key=True)
+    host_id = db.Column(db.Integer, db.ForeignKey('hosts.id'))
+    service_name = db.Column(db.String(255))
+    status = db.Column(db.String(50))  # running/stopped
+    port = db.Column(db.Integer)
+    protocol = db.Column(db.String(10))
+    start_type = db.Column(db.String(50))
+    display_name = db.Column(db.String(255))
+    description = db.Column(db.Text)
+    created_at = db.Column(db.DateTime, default=datetime.utcnow)
+
+class SecurityScan(db.Model):
+    __tablename__ = 'security_scans'
     
-    def get_recent_alerts(self):
-        # 这里可以添加获取最近告警的逻辑
-        # 示例数据
-        return [
-            {
-                'level': 'high',
-                'message': '检测到可疑进程',
-                'timestamp': datetime.now().isoformat()
-            },
-            {
-                'level': 'medium',
-                'message': 'CPU使用率过高',
-                'timestamp': datetime.now().isoformat()
-            }
-        ]
+    id = db.Column(db.Integer, primary_key=True)
+    host_id = db.Column(db.Integer, db.ForeignKey('hosts.id'))
+    scan_type = db.Column(db.String(50))  # service_scan/log_analysis
+    status = db.Column(db.String(20))  # running/completed/failed
+    findings = db.Column(db.JSON)
+    risk_level = db.Column(db.String(20))  # high/medium/low
+    scan_time = db.Column(db.DateTime, default=datetime.utcnow)
+    created_at = db.Column(db.DateTime, default=datetime.utcnow)

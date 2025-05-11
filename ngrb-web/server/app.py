@@ -7,10 +7,13 @@ from routes.file import bp as file_bp
 from routes.ai import bp as ai_bp
 from routes.host import bp as host_bp
 from routes.threat_intelligence import bp as threat_intelligence_bp
+from routes.situation_awareness import bp as situation_awareness_bp
 import threading
 import time
 from models.traffic import Traffic
 from flask_cors import CORS
+import os
+
 def create_app():
     app = Flask(__name__)
     app.config.from_object(Config)
@@ -26,6 +29,7 @@ def create_app():
     app.register_blueprint(ai_bp)
     app.register_blueprint(host_bp)
     app.register_blueprint(threat_intelligence_bp)
+    app.register_blueprint(situation_awareness_bp)
     
     # Create database tables
     with app.app_context():
@@ -46,30 +50,17 @@ def background_traffic_update():
                 if latest_traffic:
                     # 准备发送的数据
                     data = {
-                        'index': calculate_security_index(),  # 计算安全指数
                         'alerts': get_alert_stats(),         # 获取告警统计
                         'attackTypes': get_attack_types(),   # 获取攻击类型分布
                         'timeline': get_attack_timeline(),   # 获取攻击时间线
-                        'attackStats': {
-                            'suspicious': Traffic.query.filter_by(status='suspicious').count(),
-                            'success': Traffic.query.filter_by(status='success').count(),
-                            'failed': Traffic.query.filter_by(status='failed').count()
-                        }
+                        
                     }
                     socketio.emit('security_update', data)
             except Exception as e:
                 print(f"Error in background task: {e}")
             time.sleep(1)
 
-def calculate_security_index():
-    """计算安全指数"""
-    with app.app_context():
-        total = Traffic.query.count()
-        if total == 0:
-            return 100
-        suspicious = Traffic.query.filter_by(status='suspicious').count()
-        malicious = Traffic.query.filter_by(status='success').count()
-        return int(100 - (suspicious + malicious * 2) / total * 100)
+
 
 def get_alert_stats():
     """获取告警统计"""

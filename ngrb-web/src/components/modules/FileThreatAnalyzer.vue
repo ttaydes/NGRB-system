@@ -26,7 +26,7 @@
         </div>
         <template #tip>
           <div class="el-upload__tip">
-            支持的文件类型: .exe, .dll, .pdf, .doc, .docx, .xls, .xlsx, .zip, .rar
+            支持的文件类型: .exe, .dll, .pdf, .doc, .docx, .xls, .xlsx, .zip, .rar等
           </div>
         </template>
       </el-upload>
@@ -107,21 +107,12 @@
               {{ selectedFile.threatLevel }}
             </el-tag>
           </el-descriptions-item>
+          <el-descriptions-item label="yara分析结果">{{ selectedFile.yaraResult }}</el-descriptions-item>
+          <el-descriptions-item label="微步情报API结果">{{ selectedFile.apiResult }}</el-descriptions-item>
           <el-descriptions-item label="检测时间">{{ formatDate(selectedFile.detectionTime) }}</el-descriptions-item>
         </el-descriptions>
 
-        <div class="detection-results" v-if="selectedFile.detectionResult">
-          <h3>检测结果</h3>
-          <el-timeline>
-            <el-timeline-item
-              v-for="(result, index) in selectedFile.detectionResult"
-              :key="index"
-              :type="result.severity === 'high' ? 'danger' : result.severity === 'medium' ? 'warning' : 'success'"
-            >
-              {{ result.description }}
-            </el-timeline-item>
-          </el-timeline>
-        </div>
+       
       </div>
     </el-dialog>
   </div>
@@ -171,9 +162,9 @@ export default {
 
     const getThreatLevelType = (level) => {
       const types = {
-        '高危': 'danger',
-        '中危': 'warning',
-        '低危': 'success'
+        'malicious': 'danger',
+        'suspicious': 'warning',
+        'clean': 'success'
       }
       return types[level] || 'info'
     }

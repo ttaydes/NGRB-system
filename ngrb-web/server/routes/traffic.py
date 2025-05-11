@@ -3,6 +3,7 @@ from flask_socketio import emit
 from datetime import datetime, timedelta
 from extensions import db, socketio
 from models.traffic import Traffic
+import dateutil.parser
 
 bp = Blueprint('traffic', __name__)
 
@@ -10,49 +11,114 @@ bp = Blueprint('traffic', __name__)
 def get_traffic():
     """获取流量数据"""
     try:
-        limit = request.args.get('limit', default=100, type=int)
-        risk_level = request.args.get('risk_level')
+        # 分页参数
+        limit = request.args.get('limit', default=20, type=int)
+        offset = request.args.get('offset', default=0, type=int)
+        
+        # 筛选参数
+        source_ip = request.args.get('source_ip')
+        destination_ip = request.args.get('destination_ip')
         protocol = request.args.get('protocol')
+        risk_level = request.args.get('risk_level')
+        
+        # 时间范围参数
+        start_time = request.args.get('start_time')
+        end_time = request.args.get('end_time')
         time_range = request.args.get('time_range', '1h')
-        start_date = request.args.get('start_date')
-        end_date = request.args.get('end_date')
-
+        traffic_type = request.args.get('traffic_type')
+        # 构建查询
         query = Traffic.query
-        if risk_level:
-            query = query.filter_by(risk_level=risk_level)
+        
+        # 应用IP过滤
+        if source_ip:
+            query = query.filter(Traffic.source_ip.like(f'%{source_ip}%'))
+        if destination_ip:
+            query = query.filter(Traffic.destination_ip.like(f'%{destination_ip}%'))
+        
+        # 应用威胁类型过滤
+        if traffic_type:
+            query = query.filter(Traffic.threat_type.like(f'%{traffic_type}%'))
+        # 应用协议过滤
         if protocol:
             query = query.filter_by(protocol=protocol)
         
-        # 优先使用日期范围过滤
-        if start_date and end_date:
-            start = datetime.strptime(start_date, '%Y-%m-%d')
-            end = datetime.strptime(end_date, '%Y-%m-%d') + timedelta(days=1)  # 包含结束日期
-            query = query.filter(Traffic.timestamp >= start, Traffic.timestamp < end)
+        # 应用风险等级过滤
+        if risk_level:
+            query = query.filter_by(risk_level=risk_level)
+        
+        # 应用时间范围过滤
+        if start_time and end_time:
+            try:
+                # 使用 dateutil.parser 解析各种格式的日期字符串
+                start = dateutil.parser.parse(start_time)
+                end = dateutil.parser.parse(end_time)
+                query = query.filter(Traffic.timestamp >= start, Traffic.timestamp <= end)
+            except Exception as e:
+                return jsonify({'error': f'Invalid date format: {str(e)}'}), 400
         else:
-            # 如果没有日期范围，使用时间范围
+            # 使用预设时间范围
+            now = datetime.now()
             if time_range == '1h':
-                query = query.filter(Traffic.timestamp >= datetime.now() - timedelta(hours=1))
+                query = query.filter(Traffic.timestamp >= now - timedelta(hours=1))
             elif time_range == '24h':
-                query = query.filter(Traffic.timestamp >= datetime.now() - timedelta(days=1))
+                query = query.filter(Traffic.timestamp >= now - timedelta(days=1))
             elif time_range == '7d':
-                query = query.filter(Traffic.timestamp >= datetime.now() - timedelta(days=7))
+                query = query.filter(Traffic.timestamp >= now - timedelta(days=7))
 
-        traffic = query.order_by(Traffic.timestamp.desc()).limit(limit).all()
+        # 获取总数
+        total = query.count()
+
+        # 应用分页
+        traffic = query.order_by(Traffic.timestamp.desc()).offset(offset).limit(limit).all()
 
         # 统计信息
-        total = query.count()
-        suspicious = query.filter_by(status='suspicious').count()
-        malicious = query.filter_by(status='malicious').count()
+        suspicious = query.filter_by(risk_level='medium').count()
+        malicious = query.filter_by(risk_level='high').count()
+
+        # 获取统计数据
+        stats = {
+            'hourly_stats': get_hourly_stats(query),
+            'risk_stats': get_risk_stats(query)
+        }
 
         return jsonify({
             'traffic': [t.to_dict() for t in traffic],
             'total': total,
             'suspicious': suspicious,
-            'malicious': malicious
+            'malicious': malicious,
+            'stats': stats
         })
     except Exception as e:
-        db.session.rollback()  # 避免事务挂起
+        db.session.rollback()
         return jsonify({'error': str(e)}), 500
+
+def get_hourly_stats(query):
+    """获取小时统计"""
+    hourly_stats = []
+    now = datetime.now()
+    for i in range(24):
+        hour_start = now - timedelta(hours=i+1)
+        hour_end = now - timedelta(hours=i)
+        count = query.filter(
+            Traffic.timestamp >= hour_start,
+            Traffic.timestamp < hour_end
+        ).count()
+        hourly_stats.append({
+            'hour': hour_start.strftime('%H:00'),
+            'count': count
+        })
+    return hourly_stats
+
+def get_risk_stats(query):
+    """获取风险等级统计"""
+    risk_stats = []
+    for risk in ['low', 'medium', 'high']:
+        count = query.filter_by(risk_level=risk).count()
+        risk_stats.append({
+            'risk_level': risk,
+            'count': count
+        })
+    return risk_stats
 
 @socketio.on('connect')
 def handle_connect():
@@ -107,26 +173,39 @@ def handle_traffic_stats():
         db.session.rollback()  # 关键
         emit('error', {'message': str(e)})
 
-@bp.route('/api/traffic', methods=['POST'])
-def add_traffic():
-    """添加新的流量数据"""
-    try:
-        data = request.get_json()
-        traffic = Traffic(
-            source_ip=data['source_ip'],
-            source_port=data['source_port'],
-            destination_ip=data['destination_ip'],
-            destination_port=data['destination_port'],
-            protocol=data['protocol'],
-            packet_size=data['packet_size'],
-            payload=data.get('payload'),
-            risk_level=data['risk_level'],
-            threat_type=data.get('threat_type'),
-            status=data['status']
-        )
-        db.session.add(traffic)
-        db.session.commit()
-        return jsonify({'message': 'Traffic data added successfully'}), 201
-    except Exception as e:
-        db.session.rollback()  # 关键：失败插入后清空事务状态
-        return jsonify({'error': str(e)}), 400
+# @bp.route('/api/traffic', methods=['POST'])
+# def add_traffic():
+#     """添加新的流量数据"""
+#     try:
+#         data = request.get_json()
+        
+#         traffic = Traffic(
+#             source_ip=data['source_ip'],
+#             source_port=data['source_port'],
+#             destination_ip=data['destination_ip'],
+#             destination_port=data['destination_port'],
+#             protocol=data['protocol'],
+#             packet_size=data['packet_size'],
+#             payload=data.get('payload'),
+#             header_body=data.get('header_body'),
+#             risk_level=data['risk_level'],
+#             threat_type=data.get('threat_type'),
+#             status=data['status']
+#         )
+#         db.session.add(traffic)
+#         db.session.commit()
+        
+#         # 发送实时更新
+#         socketio.emit('traffic_update', {
+#             'stats': {
+#                 'total': Traffic.query.count(),
+#                 'suspicious': Traffic.query.filter_by(status='suspicious').count(),
+#                 'malicious': Traffic.query.filter_by(status='malicious').count()
+#             },
+#             'recent': [traffic.to_dict()]
+#         })
+        
+#         return jsonify({'message': 'Traffic data added successfully'}), 201
+#     except Exception as e:
+#         db.session.rollback()
+#         return jsonify({'error': str(e)}), 400

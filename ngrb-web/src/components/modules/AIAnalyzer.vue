@@ -40,14 +40,18 @@
         <div class="result-content">
           <div class="result-section">
             <h3>分析摘要</h3>
-            <p>{{ analysisResult.summary }}</p>
+            <div class="markdown-content" v-html="renderMarkdown(analysisResult.summary)"></div>
           </div>
           
           <div class="result-section" v-if="analysisResult.threats && analysisResult.threats.length > 0">
             <h3>威胁分析</h3>
             <el-table :data="analysisResult.threats" style="width: 100%">
               <el-table-column prop="type" label="威胁类型" width="120" />
-              <el-table-column prop="description" label="描述" />
+              <el-table-column prop="description" label="描述">
+                <template #default="scope">
+                  <div class="markdown-content" v-html="renderMarkdown(scope.row.description)"></div>
+                </template>
+              </el-table-column>
               <el-table-column prop="severity" label="严重程度" width="100">
                 <template #default="scope">
                   <el-tag :type="getSeverityType(scope.row.severity)">
@@ -67,11 +71,11 @@
                 :title="rec.title"
               >
                 <div class="recommendation-content">
-                  <p>{{ rec.description }}</p>
+                  <div class="markdown-content" v-html="renderMarkdown(rec.description)"></div>
                   <div class="recommendation-steps" v-if="rec.steps">
                     <ol>
                       <li v-for="(step, stepIndex) in rec.steps" :key="stepIndex">
-                        {{ step }}
+                        <div class="markdown-content" v-html="renderMarkdown(step)"></div>
                       </li>
                     </ol>
                   </div>
@@ -89,6 +93,8 @@
 import { ref } from 'vue';
 import { ElMessage } from 'element-plus';
 import axios from 'axios';
+import { marked } from 'marked';
+import DOMPurify from 'dompurify';
 
 export default {
   name: 'AIAnalyzer',
@@ -97,6 +103,14 @@ export default {
     const analysisType = ref('traffic');
     const analysisResult = ref(null);
     const analyzing = ref(false);
+
+    const renderMarkdown = (text) => {
+      if (!text) return '';
+      // 使用 marked 渲染 Markdown
+      const rendered = marked(text);
+      // 使用 DOMPurify 清理 HTML，防止 XSS 攻击
+      return DOMPurify.sanitize(rendered);
+    };
 
     const analyze = async () => {
       if (!analysisInput.value.trim()) {
@@ -146,7 +160,8 @@ export default {
       analyzing,
       analyze,
       getConfidenceType,
-      getSeverityType
+      getSeverityType,
+      renderMarkdown
     };
   }
 };
@@ -211,5 +226,85 @@ export default {
 
 .recommendation-steps li {
   margin-bottom: 5px;
+}
+
+.markdown-content {
+  line-height: 1.6;
+}
+
+.markdown-content :deep(h1),
+.markdown-content :deep(h2),
+.markdown-content :deep(h3),
+.markdown-content :deep(h4) {
+  margin-top: 1em;
+  margin-bottom: 0.5em;
+  color: #303133;
+}
+
+.markdown-content :deep(p) {
+  margin: 0.5em 0;
+}
+
+.markdown-content :deep(ul),
+.markdown-content :deep(ol) {
+  padding-left: 2em;
+  margin: 0.5em 0;
+}
+
+.markdown-content :deep(li) {
+  margin: 0.3em 0;
+}
+
+.markdown-content :deep(code) {
+  background-color: #f5f7fa;
+  padding: 0.2em 0.4em;
+  border-radius: 3px;
+  font-family: monospace;
+}
+
+.markdown-content :deep(pre) {
+  background-color: #f5f7fa;
+  padding: 1em;
+  border-radius: 4px;
+  overflow-x: auto;
+}
+
+.markdown-content :deep(blockquote) {
+  border-left: 4px solid #dcdfe6;
+  margin: 0.5em 0;
+  padding: 0.5em 1em;
+  color: #606266;
+  background-color: #f5f7fa;
+}
+
+.markdown-content :deep(table) {
+  border-collapse: collapse;
+  width: 100%;
+  margin: 1em 0;
+}
+
+.markdown-content :deep(th),
+.markdown-content :deep(td) {
+  border: 1px solid #dcdfe6;
+  padding: 0.5em;
+  text-align: left;
+}
+
+.markdown-content :deep(th) {
+  background-color: #f5f7fa;
+}
+
+.markdown-content :deep(a) {
+  color: #409eff;
+  text-decoration: none;
+}
+
+.markdown-content :deep(a:hover) {
+  text-decoration: underline;
+}
+
+.markdown-content :deep(img) {
+  max-width: 100%;
+  height: auto;
 }
 </style> 

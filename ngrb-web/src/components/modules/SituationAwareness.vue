@@ -1,358 +1,245 @@
 <template>
   <div class="situation-awareness">
-    <!-- 总体安全态势指标 -->
-    <div class="security-index">
-      <div class="gauge-chart" ref="gaugeChart"></div>
-      <div class="index-text">
-        <h3>当前安全态势总览</h3>
-        <div class="index-value">{{ securityIndex }}%</div>
-      </div>
-    </div>
-
-    <!-- 3D地球和攻击路线 -->
-    <div class="earth-container" ref="earthContainer"></div>
-
-    <!-- 数据统计面板 -->
-    <div class="stats-panel">
-      <!-- 告警统计 -->
-      <el-card class="stats-card">
-        <template #header>
-          <div class="card-header">
-            <span style="color: red;">告警统计</span>
-            <el-tag type="danger" v-if="hasNewAlert">新告警</el-tag>
-          </div>
-        </template>
-        <div class="alert-stats">
-          <div class="alert-chart" ref="alertChart"></div>
-          <div class="alert-list">
-            <div v-for="alert in recentAlerts" :key="alert.id" class="alert-item" :class="alert.level">
-              <el-icon><Warning /></el-icon>
-              <span>{{ alert.message }}</span>
-              <span class="alert-time">{{ alert.time }}</span>
+    <!-- 顶部统计卡片 -->
+    <el-row :gutter="20" class="stat-cards">
+      <el-col :span="6" v-for="(stat, index) in statistics" :key="index">
+        <el-card shadow="hover" :body-style="{ padding: '20px' }">
+          <div class="stat-item">
+            <div class="stat-icon" :class="stat.type">
+              <el-icon><component :is="stat.icon" /></el-icon>
+            </div>
+            <div class="stat-info">
+              <div class="stat-value">{{ stat.value }}</div>
+              <div class="stat-label">{{ stat.label }}</div>
             </div>
           </div>
-        </div>
-      </el-card>
+        </el-card>
+      </el-col>
+    </el-row>
 
-      <!-- 攻击类型分布 -->
-      <el-card class="stats-card">
-        <template #header>
-          <div class="card-header">
-            <span style="color: red;">攻击类型分布</span>
+    <!-- 安全指数和告警分布 -->
+    <el-row :gutter="20" class="chart-row">
+      <el-col :span="12">
+        <el-card class="chart-card">
+          <template #header>
+            <div class="card-header">
+              <span>安全指数趋势</span>
+              <el-radio-group v-model="timeRange" size="small">
+                <el-radio-button label="24">24小时</el-radio-button>
+                <el-radio-button label="168">7天</el-radio-button>
+                <el-radio-button label="720">30天</el-radio-button>
+              </el-radio-group>
+            </div>
+          </template>
+          <div ref="securityChartRef" class="chart-container"></div>
+        </el-card>
+      </el-col>
+      <el-col :span="12" >
+        <el-card class="chart-card">
+          <template #header>
+            <div class="card-header">
+              <span>告警分布</span>
+            </div>
+          </template>
+          <div class="alert-distribution">
+            <div class="alert-buttons">
+              <el-radio-group v-model="alertType" size="small">
+                <el-radio-button label="traffic">流量分析</el-radio-button>
+                <el-radio-button label="file">文件分析</el-radio-button>
+                <el-radio-button label="host">主机分析</el-radio-button>
+              </el-radio-group>
+            </div>
+            <div ref="alertChartRef" class="chart-container"></div>
           </div>
-        </template>
-        <div class="attack-chart" ref="attackChart"></div>
-      </el-card>
+        </el-card>
+      </el-col>
+    </el-row>
 
-      <!-- 实时攻击态势 -->
-      <el-card class="stats-card">
-        <template #header>
-          <div class="card-header">
-            <span style="color: red">实时攻击态势</span>
+    <!-- 威胁分析和分布地图 -->
+    <el-row :gutter="20" class="chart-row">
+      <el-col :span="12">
+        <el-card class="chart-card">
+          <template #header>
+            <div class="card-header">
+              <span>威胁来源分布</span>
+            </div>
+          </template>
+          <div ref="threatChartRef" class="chart-container"></div>
+        </el-card>
+      </el-col>
+      
+      <el-col :span="12">
+        <el-card class="chart-card">
+          <template #header>
+            <div class="card-header">
+              <span>攻击分布地图</span>
+            </div>
+          </template>
+          <div class="chart-container map-container">
+            <v-chart class="chart" :option="attackTypeOption" :style="chartStyle" />
           </div>
-        </template>
-        <div class="realtime-attacks">
-          <div class="attack-timeline" ref="timelineChart"></div>
-          <div class="attack-status">
-            <div class="status-item">
-              <div class="status-label">可疑</div>
-              <div class="status-value">{{ attackStats.suspicious }}</div>
-            </div>
-            <div class="status-item">
-              <div class="status-label">攻击成功</div>
-              <div class="status-value success">{{ attackStats.success }}</div>
-            </div>
-            <div class="status-item">
-              <div class="status-label">攻击失败</div>
-              <div class="status-value failed">{{ attackStats.failed }}</div>
-            </div>
-          </div>
-        </div>
-      </el-card>
-    </div>
+        </el-card>
+      </el-col>
+    </el-row>
 
-    <!-- 访问者地域分布 -->
-    <div class="visitor-distribution">
-      <div class="distribution-chart" ref="distributionChart"></div>
-    </div>
+    <!-- 实时告警和威胁词云 -->
+    <el-row :gutter="20" class="chart-row">
+      <el-col :span="16">
+        <el-card class="chart-card">
+          <template #header>
+            <div class="card-header">
+              <span>实时告警</span>
+              <el-button type="primary" size="small" @click="refreshAlerts">
+                刷新
+              </el-button>
+            </div>
+          </template>
+          <div class="alert-carousel">
+            <div class="alert-list" :style="{ transform: `translateY(${-currentIndex * 60}px)` }">
+              <div v-for="(alert, index) in recentAlerts" 
+                   :key="index" 
+                   class="alert-item"
+                   :class="{ 'alert-high': alert.risk_level === 'high', 
+                            'alert-medium': alert.risk_level === 'medium',
+                            'alert-low': alert.risk_level === 'low' }">
+                <div class="alert-time">{{ formatTime(alert.timestamp) }}</div>
+                <div class="alert-content">
+                  <span class="alert-type">{{ alert.type }}</span>
+                  <span class="alert-source">{{ alert.source }}</span>
+                  <span class="alert-desc">{{ alert.description }}</span>
+                </div>
+                <el-tag :type="getRiskLevelType(alert.risk_level)" size="small">
+                  {{ alert.risk_level }}
+                </el-tag>
+              </div>
+            </div>
+          </div>
+        </el-card>
+      </el-col>
+      <el-col :span="8">
+        <el-card class="chart-card">
+          <template #header>
+            <div class="card-header">
+              <span>威胁词云</span>
+            </div>
+            <div class="chart-container">
+            <div ref="wordCloudChart" style="width: 100%; height: 400px;"></div></div>
+          </template>
+         
+        </el-card>
+      </el-col>
+    </el-row>
+
   </div>
 </template>
 
 <script>
-import { ref, onMounted, onUnmounted } from 'vue';
-import * as THREE from 'three';
-import { OrbitControls } from 'three/examples/jsm/controls/OrbitControls';
-import * as TWEEN from '@tweenjs/tween.js';
-import echarts from 'echarts';
-// 引入中国地图
-import 'echarts/map/js/china';
-import { Warning } from '@element-plus/icons-vue';
-import io from 'socket.io-client';
+import { ref, onMounted, computed, watch, onBeforeUnmount, nextTick } from 'vue'
+import { use } from 'echarts/core'
+import { CanvasRenderer } from 'echarts/renderers'
+import { PieChart, LineChart } from 'echarts/charts'
+import {
+  TitleComponent,
+  TooltipComponent,
+  LegendComponent,
+  GridComponent
+} from 'echarts/components'
+import VChart from 'vue-echarts'
+import axios from 'axios'
+import { ElMessage } from 'element-plus'
+import 'echarts-wordcloud'
+import * as echarts from 'echarts'
+import chinaMap from 'echarts/map/json/china.json'
+
+// 注册必要的组件
+use([
+  CanvasRenderer,
+  PieChart,
+  LineChart,
+  TitleComponent,
+  TooltipComponent,
+  LegendComponent,
+  GridComponent
+])
+
+// 注册中国地图
+echarts.registerMap('china', chinaMap)
+
+const wordCloudChart = ref(null)
+const wordCloudData = ref([])
+let wordCloudInstance = null
+let mapInstance = null
+
+import {
+  Warning,
+  Connection,
+  Monitor,
+  Histogram
+} from '@element-plus/icons-vue'
 
 export default {
   name: 'SituationAwareness',
   components: {
-    Warning
+    VChart,
+    Warning,
+    Connection,
+    Monitor,
+    Histogram
   },
   setup() {
-    // 引用
-    const earthContainer = ref(null);
-    const gaugeChart = ref(null);
-    const alertChart = ref(null);
-    const attackChart = ref(null);
-    const timelineChart = ref(null);
-    const distributionChart = ref(null);
+    const timeRange = ref('24')
+    const alertType = ref('traffic')
+    const statistics = ref([
+      { label: '安全指数', value: 0, icon: 'Monitor', type: 'primary' },
+      { label: '告警总数', value: 0, icon: 'Warning', type: 'danger' },
+      { label: '活跃主机', value: 0, icon: 'Connection', type: 'success' },
+      { label: '威胁类型', value: 0, icon: 'Histogram', type: 'warning' }
+    ])
+    const recentAlerts = ref([])
+    const securityData = ref({
+      securityIndex: 0,
+      alertStats: {
+        traffic: { high: 0, medium: 0, low: 0 },
+        file: { high: 0, medium: 0, low: 0 },
+        host: { high: 0, medium: 0, low: 0 }
+      },
+      attackTypes: [],
+      threatSources: [],
+      trendTimes: [],
+      trendValues: [],
+      wordCloud: [],
+      threatClassification: [],
+      provinceThreats: []
+    })
 
-    // 数据
-    const securityIndex = ref(46);
-    const hasNewAlert = ref(false);
-    const recentAlerts = ref([]);
-    const attackStats = ref({
-      suspicious: 55,
-      success: 94,
-      failed: 23
-    });
+    const securityChartRef = ref(null)
+    const alertChartRef = ref(null)
+    const threatChartRef = ref(null)
+    let securityChart = null
+    let alertChart = null
+    let threatChart = null
 
-    // Three.js 相关变量
-    let scene, camera, renderer, earth, controls;
-    let attackLines = [];
-    let charts = {};
+    const currentIndex = ref(0)
+    let carouselTimer = null
 
-    // 初始化3D地球
-    const initEarth = () => {
-      if (!earthContainer.value) return;
-      
-      scene = new THREE.Scene();
-      camera = new THREE.PerspectiveCamera(75, earthContainer.value.clientWidth / earthContainer.value.clientHeight, 0.1, 1000);
-      
-      renderer = new THREE.WebGLRenderer({ antialias: true, alpha: true });
-      renderer.setSize(earthContainer.value.clientWidth, earthContainer.value.clientHeight);
-      earthContainer.value.appendChild(renderer.domElement);
+    // 初始化安全指数趋势图
+    const initSecurityChart = () => {
+      if (securityChartRef.value) {
+        securityChart = echarts.init(securityChartRef.value)
+        updateSecurityChart()
+      }
+    }
 
-      // 创建地球
-      const geometry = new THREE.SphereGeometry(5, 32, 32);
-      const textureLoader = new THREE.TextureLoader();
-      const material = new THREE.MeshPhongMaterial({
-        map: textureLoader.load('/img/earth-bump.jpg'),
-        bumpMap: textureLoader.load('/img/earth-texture.jpg'),
-        bumpScale: 0.05,
-        specularMap: textureLoader.load('/img/earth-texture.jpg'),
-        specular: new THREE.Color('grey')
-      });
-      
-      earth = new THREE.Mesh(geometry, material);
-      scene.add(earth);
+    // 更新安全指数趋势图
+    const updateSecurityChart = () => {
+      if (!securityChart) return
 
-      // 添加环境光和平行光
-      const ambientLight = new THREE.AmbientLight(0x333333);
-      scene.add(ambientLight);
-      
-      const directionalLight = new THREE.DirectionalLight(0xffffff, 1);
-      directionalLight.position.set(5, 3, 5);
-      scene.add(directionalLight);
-
-      camera.position.z = 15;
-
-      // 添加控制器
-      controls = new OrbitControls(camera, renderer.domElement);
-      controls.enableDamping = true;
-      controls.dampingFactor = 0.05;
-      controls.rotateSpeed = 0.5;
-
-      animate();
-    };
-
-    // 动画循环
-    const animate = () => {
-      if (!earth || !scene || !camera || !renderer) return;
-      
-      requestAnimationFrame(animate);
-      TWEEN.update();
-      earth.rotation.y += 0.001;
-      controls.update();
-      renderer.render(scene, camera);
-    };
-
-    // 初始化仪表盘
-    const initGaugeChart = () => {
-      if (!gaugeChart.value) return;
-      
-      const chart = echarts.init(gaugeChart.value);
-      charts.gauge = chart;
-      
-      const option = {
-        series: [{
-          type: 'gauge',
-          min: 0,
-          max: 100,
-          splitNumber: 10,
-          radius: '90%',
-          axisLine: {
-            lineStyle: {
-              color: [
-                [0.2, '#ff4500'],
-                [0.4, '#ff7800'],
-                [0.6, '#ffd700'],
-                [0.8, '#9acd32'],
-                [1, '#32cd32']
-              ],
-              width: 20
-            }
-          },
-          axisTick: {
-            length: 12,
-            lineStyle: {
-              color: 'auto'
-            }
-          },
-          splitLine: {
-            length: 20,
-            lineStyle: {
-              color: 'auto'
-            }
-          },
-          pointer: {
-            width: 5
-          },
-          title: {
-            offsetCenter: [0, '80%'],
-            textStyle: {
-              color: '#fff',
-              fontSize: 15
-            }
-          },
-          detail: {
-            formatter: '{value}%',
-            textStyle: {
-              color: '#fff',
-              fontSize: 25
-            }
-          },
-          data: [{
-            value: securityIndex.value,
-            name: '安全指数'
-          }]
-        }]
-      };
-      chart.setOption(option);
-    };
-
-    // 初始化告警统计图
-    const initAlertChart = () => {
-      if (!alertChart.value) return;
-      
-      const chart = echarts.init(alertChart.value);
-      charts.alert = chart;
-      
-      const option = {
-        tooltip: {
-          trigger: 'item',
-          formatter: '{a} <br/>{b}: {c} ({d}%)'
-        },
-        legend: {
-          orient: 'horizontal',
-          bottom: 10,
-          textStyle: {
-            color: '#fff'
-          },
-          data: ['低危', '中危', '高危']
-        },
-        color: ['#91cc75', '#fac858', '#ee6666'],
-        series: [
-          {
-            name: '告警级别',
-            type: 'pie',
-            radius: ['50%', '70%'],
-            avoidLabelOverlap: false,
-            label: {
-              show: false
-            },
-            emphasis: {
-              label: {
-                show: true,
-                fontSize: '20',
-                fontWeight: 'bold'
-              }
-            },
-            labelLine: {
-              show: false
-            },
-            data: [
-              { value: 40, name: '低危' },
-              { value: 35, name: '中危' },
-              { value: 25, name: '高危' }
-            ]
-          }
-        ]
-      };
-      chart.setOption(option);
-    };
-
-    // 初始化攻击类型分布图
-    const initAttackChart = () => {
-      if (!attackChart.value) return;
-      
-      const chart = echarts.init(attackChart.value);
-      charts.attack = chart;
-      
-      const option = {
-        tooltip: {
-          trigger: 'item',
-          formatter: '{a} <br/>{b}: {c} ({d}%)'
-        },
-        legend: {
-          orient: 'vertical',
-          right: 10,
-          top: 'center',
-          textStyle: {
-            color: '#fff'
-          }
-        },
-        series: [
-          {
-            name: '攻击类型',
-            type: 'pie',
-            radius: ['50%', '70%'],
-            center: ['40%', '50%'],
-            avoidLabelOverlap: false,
-            label: {
-              show: false
-            },
-            emphasis: {
-              label: {
-                show: true,
-                fontSize: '20',
-                fontWeight: 'bold'
-              }
-            },
-            labelLine: {
-              show: false
-            },
-            data: [
-              { value: 335, name: 'SQL注入' },
-              { value: 310, name: 'XSS攻击' },
-              { value: 234, name: '暴力破解' },
-              { value: 135, name: 'Web漏洞' },
-              { value: 148, name: '其他' }
-            ]
-          }
-        ]
-      };
-      chart.setOption(option);
-    };
-
-    // 初始化时间线图表
-    const initTimelineChart = () => {
-      if (!timelineChart.value) return;
-      
-      const chart = echarts.init(timelineChart.value);
-      charts.timeline = chart;
-      
       const option = {
         tooltip: {
           trigger: 'axis',
-          axisPointer: {
-            type: 'shadow'
+          formatter: function(params) {
+            const data = params[0]
+            return `${data.name}<br/>安全指数: ${data.value}`
           }
         },
         grid: {
@@ -364,527 +251,656 @@ export default {
         xAxis: {
           type: 'category',
           boundaryGap: false,
-          data: ['00:00', '03:00', '06:00', '09:00', '12:00', '15:00', '18:00', '21:00'],
+          data: securityData.value.trendTimes,
           axisLabel: {
-            color: '#fff'
-          },
-          axisLine: {
-            lineStyle: {
-              color: '#fff'
+            rotate: 45,
+            formatter: function(value) {
+              // 只显示日期和小时
+              return value.split(' ')[1]
             }
           }
         },
         yAxis: {
           type: 'value',
-          axisLabel: {
-            color: '#fff'
-          },
-          axisLine: {
-            lineStyle: {
-              color: '#fff'
-            }
+          min: 0,
+          max: 100,
+          name: '安全指数',
+          nameTextStyle: {
+            padding: [0, 0, 0, 40]
           },
           splitLine: {
             lineStyle: {
-              color: 'rgba(255,255,255,0.1)'
+              type: 'dashed'
             }
           }
         },
-        series: [
-          {
-            name: '攻击次数',
-            type: 'line',
-            smooth: true,
-            symbol: 'none',
-            sampling: 'average',
+        series: [{
+          name: '安全指数',
+          type: 'line',
+          smooth: true,
+          symbol: 'circle',
+          symbolSize: 8,
+          data: securityData.value.trendValues,
+          areaStyle: {
+            opacity: 0.3,
+            color: new echarts.graphic.LinearGradient(0, 0, 0, 1, [
+              { offset: 0, color: 'rgba(64, 158, 255, 0.5)' },
+              { offset: 1, color: 'rgba(64, 158, 255, 0.1)' }
+            ])
+          },
+          itemStyle: {
+            color: '#409EFF'
+          },
+          lineStyle: {
+            width: 3
+          },
+          emphasis: {
+            focus: 'series',
             itemStyle: {
-              color: '#508dff'
-            },
-            areaStyle: {
-              color: new echarts.graphic.LinearGradient(0, 0, 0, 1, [
-                { offset: 0, color: 'rgba(80,141,255,0.5)' },
-                { offset: 1, color: 'rgba(80,141,255,0.1)' }
-              ])
-            },
-            data: [120, 132, 101, 134, 90, 230, 210, 182]
+              borderWidth: 2
+            }
           }
-        ]
-      };
-      chart.setOption(option);
-    };
+        }]
+      }
 
-    // 初始化访问地域分布图
-    const initDistributionChart = () => {
-      if (!distributionChart.value) return;
-      
-      const chart = echarts.init(distributionChart.value);
-      charts.distribution = chart;
-      
+      securityChart.setOption(option)
+    }
+
+    // 初始化告警分布图表
+    const initAlertChart = () => {
+      if (alertChartRef.value) {
+        alertChart = echarts.init(alertChartRef.value)
+        updateAlertChart()
+      }
+    }
+
+    // 更新告警分布图表
+    const updateAlertChart = () => {
+      if (!alertChart) return
+
+      const data = securityData.value.alertStats[alertType.value] || {
+        high: 0,
+        medium: 0,
+        low: 0
+      }
+
       const option = {
-        title: {
-          text: '访问地域分布',
-          left: 'center',
-          textStyle: {
-            color: '#fff'
-          }
-        },
         tooltip: {
-          trigger: 'item'
+          trigger: 'item',
+          formatter: '{b}: {c} ({d}%)'
         },
-        visualMap: {
-          min: 0,
-          max: 200,
-          left: 'left',
-          top: 'bottom',
-          text: ['高', '低'],
-          calculable: true,
-          inRange: {
-            color: ['#50a3ba', '#eac736', '#d94e5d']
-          },
-          textStyle: {
-            color: '#fff'
-          }
+        legend: {
+          orient: 'vertical',
+          right: 10,
+          top: 'center'
         },
-        series: [
-          {
-            name: '访问量',
-            type: 'map',
-            map: 'china',
-            roam: true,
-            emphasis: {
-              label: {
-                show: true
-              }
-            },
-            itemStyle: {
-              areaColor: '#323c48',
-              borderColor: '#fff'
-            },
-            data: [
-              { name: '北京', value: 200 },
-              { name: '上海', value: 180 },
-              { name: '广东', value: 150 }
-            ]
-          }
-        ]
-      };
-      chart.setOption(option);
-    };
-
-    // WebSocket连接
-    let socket;
-    const initWebSocket = () => {
-      socket = io('http://localhost:5000');
-      
-      socket.on('security_update', (data) => {
-        securityIndex.value = data.index;
-        updateCharts(data);
-      });
-
-      socket.on('attack_alert', (data) => {
-        hasNewAlert.value = true;
-        recentAlerts.value.unshift(data);
-        if (recentAlerts.value.length > 5) {
-          recentAlerts.value.pop();
-        }
-        if (data.source && data.target) {
-          addAttackLine(data.source, data.target);
-        }
-      });
-    };
-
-    // 更新图表数据
-    const updateCharts = (data) => {
-      // 更新仪表盘
-      if (data.index !== undefined && charts.gauge) {
-        charts.gauge.setOption({
-          series: [{
-            data: [{
-              value: data.index,
-              name: '安全指数'
-            }]
-          }]
-        });
-      }
-
-      // 更新告警统计
-      if (data.alerts && charts.alert) {
-        charts.alert.setOption({
-          series: [{
-            data: [
-              { value: data.alerts.low, name: '低危' },
-              { value: data.alerts.medium, name: '中危' },
-              { value: data.alerts.high, name: '高危' }
-            ]
-          }]
-        });
-      }
-
-      // 更新攻击类型分布
-      if (data.attackTypes && charts.attack) {
-        charts.attack.setOption({
-          series: [{
-            data: Object.entries(data.attackTypes).map(([name, value]) => ({
-              name,
-              value
-            }))
-          }]
-        });
-      }
-
-      // 更新时间线
-      if (data.timeline && charts.timeline) {
-        charts.timeline.setOption({
-          xAxis: {
-            data: data.timeline.times
+        series: [{
+          name: '告警分布',
+          type: 'pie',
+          radius: ['40%', '70%'],
+          center: ['40%', '50%'],
+          avoidLabelOverlap: true,
+          itemStyle: {
+            borderRadius: 10,
+            borderColor: '#fff',
+            borderWidth: 2
           },
-          series: [{
-            data: data.timeline.values
-          }]
-        });
-      }
-
-      // 更新攻击状态统计
-      if (data.attackStats) {
-        attackStats.value = data.attackStats;
-      }
-    };
-
-    // 添加攻击线条
-    const addAttackLine = (source, target) => {
-      if (!scene || !earth) return;
-      
-      // 将经纬度转换为3D坐标
-      const sourcePos = latLongToVector3(source.lat, source.lng);
-      const targetPos = latLongToVector3(target.lat, target.lng);
-
-      const curve = new THREE.QuadraticBezierCurve3(
-        sourcePos,
-        sourcePos.clone().add(targetPos).multiplyScalar(0.5).normalize().multiplyScalar(7),
-        targetPos
-      );
-
-      const points = curve.getPoints(50);
-      const geometry = new THREE.BufferGeometry().setFromPoints(points);
-      const material = new THREE.LineBasicMaterial({
-        color: 0xff0000,
-        transparent: true,
-        opacity: 0.8,
-        linewidth: 2
-      });
-
-      const line = new THREE.Line(geometry, material);
-      scene.add(line);
-      attackLines.push(line);
-
-      // 动画效果
-      new TWEEN.Tween({ opacity: 0 })
-        .to({ opacity: 0.8 }, 1000)
-        .onUpdate(function(obj) {
-          material.opacity = obj.opacity;
-        })
-        .start();
-
-      // 自动移除旧的攻击线
-      setTimeout(() => {
-        new TWEEN.Tween({ opacity: material.opacity })
-          .to({ opacity: 0 }, 1000)
-          .onUpdate(function(obj) {
-            material.opacity = obj.opacity;
-          })
-          .onComplete(function() {
-            scene.remove(line);
-            const index = attackLines.indexOf(line);
-            if (index > -1) {
-              attackLines.splice(index, 1);
+          label: {
+            show: true,
+            formatter: '{b}\n{d}%'
+          },
+          emphasis: {
+            label: {
+              show: true,
+              fontSize: '14',
+              fontWeight: 'bold'
             }
-          })
-          .start();
-      }, 4000);
-    };
+          },
+          data: [
+            { value: data.high, name: '高风险', itemStyle: { color: '#F56C6C' } },
+            { value: data.medium, name: '中风险', itemStyle: { color: '#E6A23C' } },
+            { value: data.low, name: '低风险', itemStyle: { color: '#67C23A' } }
+          ]
+        }]
+      }
 
-    // 经纬度转换为3D坐标
-    const latLongToVector3 = (lat, long) => {
-      const phi = (90 - lat) * (Math.PI / 180);
-      const theta = (long + 180) * (Math.PI / 180);
-      const radius = 5;
+      alertChart.setOption(option)
+    }
 
-      return new THREE.Vector3(
-        -radius * Math.sin(phi) * Math.cos(theta),
-        radius * Math.cos(phi),
-        radius * Math.sin(phi) * Math.sin(theta)
-      );
-    };
+    // 初始化威胁来源分布图表
+    const initThreatChart = () => {
+      if (threatChartRef.value) {
+        threatChart = echarts.init(threatChartRef.value)
+        updateThreatChart()
+      }
+    }
 
-    // 生命周期钩子
+    // 更新威胁来源分布图表
+    const updateThreatChart = () => {
+      if (!threatChart) return
+
+      const threatData = securityData.value.threatSources || []
+
+      const option = {
+        tooltip: {
+          trigger: 'item',
+          formatter: '{b}: {c} ({d}%)'
+        },
+        legend: {
+          orient: 'vertical',
+          right: 10,
+          top: 'center',
+          type: 'scroll'
+        },
+        series: [{
+          name: '威胁来源',
+          type: 'pie',
+          radius: ['40%', '70%'],
+          center: ['40%', '50%'],
+          avoidLabelOverlap: true,
+          itemStyle: {
+            borderRadius: 10,
+            borderColor: '#fff',
+            borderWidth: 2
+          },
+          label: {
+            show: true,
+            formatter: '{b}\n{d}%'
+          },
+          emphasis: {
+            label: {
+              show: true,
+              fontSize: '14',
+              fontWeight: 'bold'
+            }
+          },
+          data: threatData.map(item => ({
+            name: item.name,
+            value: item.value
+          }))
+        }]
+      }
+
+      threatChart.setOption(option)
+    }
+
+    // 修改攻击类型分布为地图配置
+    const attackTypeOption = computed(() => ({
+      tooltip: {
+        trigger: 'item',
+        formatter: function(params) {
+          if (params.data) {
+            return `${params.name}<br/>威胁数量: ${params.value}`
+          }
+          return params.name
+        }
+      },
+      visualMap: {
+        min: 0,
+        max: 300,
+        left: 'left',
+        top: 'bottom',
+        text: ['高', '低'],
+        calculable: true,
+        inRange: {
+          color: ['#e0f3f8', '#045a8d']
+        }
+      },
+      geo: {
+        map: 'china',
+        roam: true,
+        emphasis: {
+          label: {
+            show: true
+          }
+        }
+      },
+      series: [{
+        name: '威胁分布',
+        type: 'map',
+        map: 'china',
+        roam: true,
+        emphasis: {
+          label: {
+            show: true
+          }
+        },
+        data: securityData.value.provinceThreats || []
+      }]
+    }))
+
+    // 修改词云图配置
+    // 渲染词云图表
+const renderWordCloud = () => {
+  if (!wordCloudChart.value) return
+
+  // 初始化图表
+  if (!wordCloudInstance) {
+    wordCloudInstance = echarts.init(wordCloudChart.value)
+  }
+
+  const option = {
+    tooltip: {
+      show: true,
+      formatter: (params) => `${params.name}: ${params.value}`
+    },
+    series: [
+      {
+        type: 'wordCloud',
+        shape: 'circle',
+        gridSize: 8,
+        sizeRange: [12, 60],
+        rotationRange: [-90, 90],
+        textStyle: {
+          normal: {
+            color: () => {
+              return (
+                'rgb(' +
+                [
+                  Math.round(Math.random() * 160),
+                  Math.round(Math.random() * 160),
+                  Math.round(Math.random() * 160)
+                ].join(',') +
+                ')'
+              )
+            }
+          },
+          emphasis: {
+            shadowBlur: 10,
+            shadowColor: '#333'
+          }
+        },
+        data: wordCloudData.value
+      }
+    ]
+  }
+
+  wordCloudInstance.setOption(option)
+}
+
+    // 获取安全态势数据
+    const fetchSecurityData = async () => {
+      try {
+        const response = await axios.get('http://localhost:5000/api/situation/overview?timeRange=' + timeRange.value)
+        securityData.value = response.data
+        
+        // 更新所有图表
+        updateSecurityChart()
+        updateAlertChart()
+        updateThreatChart()
+        
+        // 更新统计卡片数据
+        statistics.value[0].value = securityData.value.securityIndex
+        statistics.value[1].value = 
+          securityData.value.alertStats.traffic.high + 
+          securityData.value.alertStats.traffic.medium + 
+          securityData.value.alertStats.traffic.low +
+          securityData.value.alertStats.file.high +
+          securityData.value.alertStats.file.medium +
+          securityData.value.alertStats.file.low +
+          securityData.value.alertStats.host.high +
+          securityData.value.alertStats.host.medium +
+          securityData.value.alertStats.host.low
+        statistics.value[2].value = securityData.value.activeHosts
+        statistics.value[3].value = securityData.value.threatSources?.length || 0
+
+        // 更新词云数据
+        wordCloudData.value = securityData.value.wordCloud
+        renderWordCloud()
+
+        // 更新地图数据
+        if (mapInstance) {
+          mapInstance.setOption(attackTypeOption.value)
+        }
+      } catch (error) {
+        console.error('获取安全态势数据失败:', error)
+        ElMessage.error('获取安全态势数据失败')
+      }
+    }
+
+    // 开始轮播
+    const startCarousel = () => {
+      if (carouselTimer) {
+        clearInterval(carouselTimer)
+      }
+      carouselTimer = setInterval(() => {
+        if (recentAlerts.value.length > 0) {
+          currentIndex.value = (currentIndex.value + 1) % recentAlerts.value.length
+        }
+      }, 3000) // 每3秒切换一次
+    }
+
+    // 获取最近告警
+    const fetchRecentAlerts = async () => {
+      try {
+        const response = await axios.get('http://localhost:5000/api/situation/alerts')
+        recentAlerts.value = response.data
+        currentIndex.value = 0
+        startCarousel()
+      } catch (error) {
+        ElMessage.error('获取告警数据失败')
+      }
+    }
+
+    // 刷新告警数据
+    const refreshAlerts = () => {
+      fetchRecentAlerts()
+    }
+
+    // 格式化时间
+    const formatTime = (timestamp) => {
+      return new Date(timestamp).toLocaleString()
+    }
+
+    // 获取风险等级对应的标签类型
+    const getRiskLevelType = (level) => {
+      const types = {
+        high: 'danger',
+        medium: 'warning',
+        low: 'info'
+      }
+      return types[level] || 'info'
+    }
+
+    // 监听时间范围变化
+    watch(timeRange, () => {
+      fetchSecurityData()
+      // 重新初始化图表以确保正确显示
+      nextTick(() => {
+        if (securityChart) {
+          securityChart.resize()
+        }
+      })
+    })
+
+    // 监听告警类型变化
+    watch(alertType, () => {
+      fetchSecurityData()
+    })
+
     onMounted(() => {
-      // 延迟初始化以确保DOM已经渲染
-      setTimeout(() => {
-        initEarth();
-        initGaugeChart();
-        initAlertChart();
-        initAttackChart();
-        initTimelineChart();
-        initDistributionChart();
-        initWebSocket();
-      }, 100);
+      initSecurityChart()
+      initAlertChart()
+      initThreatChart()
+      fetchSecurityData()
+      fetchRecentAlerts()
+      
+      // 初始化地图
+      const mapChart = document.querySelector('.map-container')
+      if (mapChart) {
+        mapInstance = echarts.init(mapChart)
+        mapInstance.setOption(attackTypeOption.value)
+      }
 
-      window.addEventListener('resize', onResize);
-    });
+      // 定时刷新数据
+      setInterval(() => {
+        fetchSecurityData()
+        fetchRecentAlerts()
+      }, 60000) // 每分钟刷新一次
 
-    onUnmounted(() => {
-      window.removeEventListener('resize', onResize);
-      if (socket) {
-        socket.disconnect();
-      }
-      // 清理Three.js资源
-      if (renderer) {
-        renderer.dispose();
-      }
-      if (controls) {
-        controls.dispose();
-      }
-      // 清理ECharts实例
-      Object.values(charts).forEach(chart => {
-        chart.dispose();
-      });
-    });
+      // 监听窗口大小变化
+      window.addEventListener('resize', () => {
+        securityChart?.resize()
+        alertChart?.resize()
+        threatChart?.resize()
+        mapInstance?.resize()
+      })
+    })
 
-    // 窗口大小改变处理
-    const onResize = () => {
-      if (camera && renderer && earthContainer.value) {
-        camera.aspect = earthContainer.value.clientWidth / earthContainer.value.clientHeight;
-        camera.updateProjectionMatrix();
-        renderer.setSize(earthContainer.value.clientWidth, earthContainer.value.clientHeight);
+    onBeforeUnmount(() => {
+      if (wordCloudInstance) {
+        wordCloudInstance.dispose()
       }
-      // 重置所有图表大小
-      Object.values(charts).forEach(chart => {
-        chart.resize();
-      });
-    };
+      if (mapInstance) {
+        mapInstance.dispose()
+      }
+      securityChart?.dispose()
+      alertChart?.dispose()
+      threatChart?.dispose()
+      window.removeEventListener('resize', () => {
+        securityChart?.resize()
+        alertChart?.resize()
+        threatChart?.resize()
+        mapInstance?.resize()
+      })
+      if (carouselTimer) {
+        clearInterval(carouselTimer)
+      }
+    })
+
+    // 修改图表容器样式
+    const chartStyle = {
+      height: '100%',
+      width: '100%'
+    }
 
     return {
-      earthContainer,
-      gaugeChart,
-      alertChart,
-      attackChart,
-      timelineChart,
-      distributionChart,
-      securityIndex,
-      hasNewAlert,
+      securityChartRef,
+      alertChartRef,
+      threatChartRef,
+      timeRange,
+      alertType,
+      statistics,
       recentAlerts,
-      attackStats
-    };
+      refreshAlerts,
+      formatTime,
+      wordCloudChart,
+      getRiskLevelType,
+      chartStyle,
+      currentIndex
+    }
   }
-};
+}
 </script>
 
 <style scoped>
 .situation-awareness {
-  width: 98%;
-  height: 100vh;
-  background-color: #1a1a1a;
-  color: #fff;
-  display: grid;
-  grid-template-columns: 300px 1fr 300px;
-  grid-template-rows: auto 1fr auto;
-  gap: 20px;
   padding: 20px;
-  overflow: hidden;
 }
 
-.security-index {
-  grid-column: 1;
-  grid-row: 1;
-  background: rgba(0, 0, 0, 0.5);
-  border-radius: 10px;
-  padding: 20px;
+.stat-cards {
+  margin-bottom: 20px;
+}
+
+.stat-item {
   display: flex;
-  flex-direction: column;
   align-items: center;
-  backdrop-filter: blur(10px);
-  border: 1px solid rgba(255, 255, 255, 0.1);
 }
 
-.gauge-chart {
-  width: 100%;
-  height: 300px;
-}
-
-.earth-container {
-  grid-column: 2;
-  grid-row: 1 / span 3;
-  width: 100%;
-  height: 100%;
-  position: relative;
-  overflow: hidden;
-  border-radius: 10px;
-  background: rgba(0, 0, 0, 0.5);
-  border: 1px solid rgba(255, 255, 255, 0.1);
-}
-
-.stats-panel {
-  grid-column: 3;
-  grid-row: 1 / span 2;
+.stat-icon {
+  width: 48px;
+  height: 48px;
+  border-radius: 8px;
   display: flex;
-  flex-direction: column;
-  gap: 20px;
-  max-height: 100%;
-  overflow-y: auto;
+  align-items: center;
+  justify-content: center;
+  margin-right: 12px;
 }
 
-.stats-card {
-  background: rgba(0, 0, 0, 0.5) !important;
-  border: 1px solid rgba(255, 255, 255, 0.1) !important;
-  border-radius: 10px;
-  backdrop-filter: blur(10px);
+.stat-icon.primary {
+  background-color: #409eff;
+  color: white;
+}
+
+.stat-icon.danger {
+  background-color: #f56c6c;
+  color: white;
+}
+
+.stat-icon.success {
+  background-color: #67c23a;
+  color: white;
+}
+
+.stat-icon.warning {
+  background-color: #e6a23c;
+  color: white;
+}
+
+.stat-info {
+  flex: 1;
+}
+
+.stat-value {
+  font-size: 24px;
+  font-weight: bold;
+  line-height: 1;
+  margin-bottom: 8px;
+}
+
+.stat-label {
+  font-size: 14px;
+  color: #909399;
+}
+
+.chart-row {
+  margin-bottom: 20px;
+}
+
+.chart-card {
+  height: 100%;
 }
 
 .card-header {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  padding: 15px;
-  border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+  padding: 0 20px;
 }
 
-.alert-stats {
+.chart-container {
   height: 300px;
-  padding: 20px;
+  width: 100%;
+  position: relative;
 }
 
-.alert-chart {
-  height: 200px;
+:deep(.el-card__header) {
+  padding: 15px 20px;
+  border-bottom: 1px solid #ebeef5;
+  box-sizing: border-box;
+}
+
+.alert-distribution {
+  display: flex;
+  height: 100%;
+}
+
+.alert-buttons {
+  padding: 10px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  border-right: 1px solid #EBEEF5;
+  background-color: #f5f7fa;
+}
+
+.alert-buttons :deep(.el-radio-group) {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.alert-buttons :deep(.el-radio-button) {
+  margin: 0;
+}
+
+.alert-buttons :deep(.el-radio-button__inner) {
+  width: 80px;
+  text-align: center;
+  border: none;
+  background: transparent;
+  color: #606266;
+  padding: 8px 12px;
+}
+
+.alert-buttons :deep(.el-radio-button__original-radio:checked + .el-radio-button__inner) {
+  color: #409EFF;
+  background: #ecf5ff;
+  box-shadow: none;
+  border: none;
+}
+
+:deep(.echarts) {
+  width: 100%;
+  height: 100%;
+}
+
+.alert-carousel {
+  height: 300px;
+  overflow: hidden;
+  position: relative;
+  background: #f5f7fa;
+  border-radius: 4px;
 }
 
 .alert-list {
-  margin-top: 10px;
-  max-height: 200px;
-  overflow-y: auto;
+  transition: transform 0.5s ease-in-out;
 }
 
 .alert-item {
+  height: 60px;
+  padding: 10px 15px;
   display: flex;
   align-items: center;
-  padding: 10px;
-  margin-bottom: 5px;
+  background: white;
+  margin: 5px;
   border-radius: 4px;
-  background: rgba(255, 255, 255, 0.05);
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
   transition: all 0.3s ease;
 }
 
 .alert-item:hover {
-  background: rgba(255, 255, 255, 0.1);
-}
-
-.alert-item.high {
-  border-left: 4px solid #ee6666;
-}
-
-.alert-item.medium {
-  border-left: 4px solid #fac858;
-}
-
-.alert-item.low {
-  border-left: 4px solid #91cc75;
+  transform: translateX(5px);
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15);
 }
 
 .alert-time {
-  margin-left: auto;
-  font-size: 0.8em;
-  color: #888;
+  width: 150px;
+  color: #909399;
+  font-size: 12px;
 }
 
-.attack-chart {
-  height: 300px;
-  padding: 20px;
-}
-
-.realtime-attacks {
-  height: 400px;
-  padding: 20px;
-}
-
-.attack-status {
+.alert-content {
+  flex: 1;
+  margin: 0 15px;
   display: flex;
-  justify-content: space-around;
-  margin-top: 20px;
+  align-items: center;
+  gap: 15px;
 }
 
-.status-item {
-  text-align: center;
-  padding: 15px;
-  background: rgba(255, 255, 255, 0.05);
-  border-radius: 8px;
-  transition: all 0.3s ease;
-}
-
-.status-item:hover {
-  background: rgba(255, 255, 255, 0.1);
-  transform: translateY(-2px);
-}
-
-.status-label {
-  font-size: 14px;
-  color: #888;
-}
-
-.status-value {
-  font-size: 24px;
+.alert-type {
+  color: #409EFF;
   font-weight: bold;
-  margin-top: 5px;
+  min-width: 80px;
 }
 
-.status-value.success {
-  color: #91cc75;
+.alert-source {
+  color: #606266;
+  min-width: 120px;
 }
 
-.status-value.failed {
-  color: #ee6666;
+.alert-desc {
+  color: #606266;
+  flex: 1;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
 }
 
-.visitor-distribution {
-  grid-column: 1;
-  grid-row: 2 / span 2;
-  background: rgba(0, 0, 0, 0.5);
-  border-radius: 10px;
-  padding: 20px;
-  backdrop-filter: blur(10px);
-  border: 1px solid rgba(255, 255, 255, 0.1);
+.alert-high {
+  border-left: 4px solid #F56C6C;
 }
 
-.distribution-chart {
-  width: 100%;
-  height: 400px;
+.alert-medium {
+  border-left: 4px solid #E6A23C;
 }
 
-/* 自定义滚动条样式 */
-::-webkit-scrollbar {
-  width: 6px;
-}
-
-::-webkit-scrollbar-track {
-  background: rgba(255, 255, 255, 0.1);
-  border-radius: 3px;
-}
-
-::-webkit-scrollbar-thumb {
-  background: rgba(255, 255, 255, 0.3);
-  border-radius: 3px;
-}
-
-::-webkit-scrollbar-thumb:hover {
-  background: rgba(255, 255, 255, 0.5);
-}
-
-/* Element Plus 组件暗色主题适配 */
-:deep(.el-card) {
-  --el-card-bg-color: transparent !important;
-  --el-card-border-color: rgba(255, 255, 255, 0.1) !important;
+.alert-low {
+  border-left: 4px solid #67C23A;
 }
 
 :deep(.el-tag) {
-  background-color: rgba(255, 255, 255, 0.1);
-  border: none;
+  min-width: 60px;
+  text-align: center;
 }
 </style>

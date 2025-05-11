@@ -13,29 +13,38 @@ class Traffic(db.Model):
     destination_port = db.Column(db.Integer)
     protocol = db.Column(db.String(10))
     packet_size = db.Column(db.Integer)
+    response_code = db.Column(db.Integer)
     payload = db.Column(db.Text)  # Store base64 encoded payload
+    header_body = db.Column(db.Text)  # 新增header体字段
     risk_level = db.Column(db.String(10))
+    traffic_type = db.Column(db.String(50))
     threat_type = db.Column(db.String(50))
-    status = db.Column(db.String(20))
+    packet_type = db.Column(db.String(10))
 
     def __init__(self, **kwargs):
-        # 处理 payload
+        # 处理 payload 和 header_body
         raw_payload = kwargs.pop('payload', None)
+        raw_header = kwargs.pop('header_body', None)
+        
         if raw_payload:
             if isinstance(raw_payload, bytes):
-                # 存储原始二进制数据
                 self.payload_binary = raw_payload
-                # 存储 base64 编码的文本版本
                 self.payload = base64.b64encode(raw_payload).decode('utf-8')
             elif isinstance(raw_payload, str):
-                # 如果是字符串，直接存储
                 self.payload = raw_payload
                 try:
-                    # 尝试解码 base64 字符串
                     self.payload_binary = base64.b64decode(raw_payload)
                 except:
-                    # 如果不是 base64 编码，则存储为 None
                     self.payload_binary = None
+                    
+        if raw_header:
+            if isinstance(raw_header, (dict, list)):
+                self.header_body = json.dumps(raw_header)
+            elif isinstance(raw_header, str):
+                self.header_body = raw_header
+            else:
+                self.header_body = str(raw_header)
+                
         super(Traffic, self).__init__(**kwargs)
 
     def to_dict(self):
@@ -48,8 +57,11 @@ class Traffic(db.Model):
             'destination_port': self.destination_port,
             'protocol': self.protocol,
             'packet_size': self.packet_size,
-            'payload': self.payload,  # base64 encoded text
+            'response_code': self.response_code,
+            'payload': self.payload,
+            'header_body': self.header_body,  # 添加header_body到返回字典
             'risk_level': self.risk_level,
+            'traffic_type': self.traffic_type,
             'threat_type': self.threat_type,
-            'status': self.status
+            'packet_type': self.packet_type,
         }

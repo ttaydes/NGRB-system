@@ -1,36 +1,24 @@
-rule Backdoor_Shamanic_Golang : windows malware backdoor shamanic golang
+rule MAL_Generic_Backdoor_Template
 {
     meta:
-		description = "Shamanic Golang backdoor"
-        author = "albertzsigovits"
-        sha256 = "fb18a869139f1c7f2e182d1f1d0ac4db232d93a0c3ac89dc8dadf13077de9910"
-		filetype = "pe"
+        description = "Generic backdoor or webshell detection"
+        author = "aydes"
+        date = "2025-05-08"
+        malware_type = "backdoor"
+        malware_family = "generic"
+        threat_level = "suspicious"
+        version = "1.0"
 
     strings:
-        $pdb = "Go build ID: \"hcVddaNK5rx6heao1eoJ/u37oG70mHTJY1vCNtMHu/D-Je_IxqqGnZi8XzHeZ4/3JXFlEhWlY--Y1mFTtQ6\""
-
-        $str1 = "github.com/whiterabb17/shaman" ascii wide
-        $str2 = "D:/Repos/Shamanic/Shamanic/package" ascii wide
-
-        $shaman1 = "<b>SHAMANS BACKDOOR</b>" ascii wide
-        $shaman2 = "<i>remove</i> - uninstall Shaman bin & persistence" ascii wide
-        $shaman3 = "<i>C3 Alive</i>" ascii wide
-        $shaman4 = "7heDeadBunnyCollectiv3" ascii wide
-
-        $git1 = "github.com/atotto/clipboard" ascii wide
-        $git2 = "github.com/mateuszmierzwinski/filescanner" ascii wide
-        $git3 = "github.com/vova616/screenshot" ascii wide
-        $git4 = "github.com/StackExchange/wmi" ascii wide
+        // 可选特征
+        $input_stream = "php://input"
+        $eval = /eval\s*\(.*\)/
+        $base64 = "base64_decode"
+        $xor_op = /[\$a-zA-Z0-9_]+\s*\^\s*[\$a-zA-Z0-9_]/
+        $openssl = "openssl_decrypt"
+        $call_func = "call_user_func"
+        $cmd = /system\s*\(|exec\s*\(|shell_exec\s*\(/
 
     condition:
-		uint16(0) == 0x5A4D
-		and uint32(uint32(0x3C)) == 0x00004550
-		and (
-            	(
-					1 of ($str*)
-					and 1 of ($shaman*)
-					and 1 of ($git*)
-				)
-				or $pdb
-        )
+        2 of ($input_stream, $eval, $base64, $xor_op, $openssl, $call_func, $cmd)
 }

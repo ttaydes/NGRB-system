@@ -39,7 +39,12 @@
           </div>
         </div>
         <div class="content-body">
-          <component :is="currentModule.component" :showMap="showNetworkMap" />
+          <component 
+            :is="currentModule.component" 
+            :showMap="showNetworkMap"
+            :key="currentMenuIndex"
+            ref="currentComponent"
+          />
         </div>
       </div>
     </div>
@@ -52,12 +57,14 @@
     >
       <el-table :data="fileHistory" style="width: 100%">
         <el-table-column prop="filename" label="文件名" width="200" />
+   
         <el-table-column prop="sha256" label="SHA256" width="300" />
         <el-table-column prop="fileType" label="文件类型" width="120" />
         <el-table-column prop="fileSize" label="大小" width="120">
           <template #default="scope">
             {{ formatFileSize(scope.row.fileSize) }}
           </template>
+        
         </el-table-column>
         <el-table-column prop="threatLevel" label="威胁等级" width="120">
           <template #default="scope">
@@ -74,6 +81,51 @@
         <el-table-column fixed="right" label="操作" width="120">
           <template #default="scope">
             <el-button link type="primary" @click="viewFileDetails(scope.row)">详情</el-button>
+            <el-dialog
+              v-model="selectedFile"
+              :title="selectedFile ? selectedFile.filename + ' 分析详情' : '文件分析详情'"
+              width="60%"
+            >
+            <div v-if="selectedFile" class="file-details">
+              <el-descriptions :column="2" border>
+                <el-descriptions-item label="文件名">{{ selectedFile.filename }}</el-descriptions-item>
+                <el-descriptions-item label="SHA256">{{ selectedFile.sha256 }}</el-descriptions-item>
+                <el-descriptions-item label="MD5">{{  JSON.parse(selectedFile.apiResult).md5}}</el-descriptions-item>
+                <el-descriptions-item label="文件类型">{{ selectedFile.fileType }}</el-descriptions-item>
+                <el-descriptions-item label="文件大小">{{ formatFileSize(selectedFile.fileSize) }}</el-descriptions-item>
+                <el-descriptions-item label="威胁等级">
+                  <el-tag :type="getThreatLevelType(selectedFile.threatLevel)">
+                    {{ selectedFile.threatLevel }}
+                  </el-tag>
+                </el-descriptions-item>
+                <el-descriptions-item label="yara分析结果">检测信息：{{ selectedFile.yaraResult.check_info}}
+
+                  威胁类型：{{ JSON.parse(selectedFile.yaraResult).malware_type }}
+                  威胁家族：{{ JSON.parse(selectedFile.yaraResult).malware_family }}
+                  威胁等级：{{ JSON.parse(selectedFile.yaraResult).threat_level }}
+                </el-descriptions-item>
+                
+                
+                
+                <el-descriptions-item label="微步情报API结果">
+                  威胁类型：{{ JSON.parse(selectedFile.apiResult).malware_type }}
+                  威胁家族：{{ JSON.parse(selectedFile.apiResult).malware_family }}
+                  威胁等级：{{ JSON.parse(selectedFile.apiResult).threat_level }}
+                  病毒引擎检测: {{ JSON.parse(selectedFile.apiResult).multiengines}}
+                  标签信息: {{ JSON.parse(selectedFile.apiResult).tag}}
+
+
+                </el-descriptions-item>
+                <el-descriptions-item label="检测时间">{{ formatDate(selectedFile.detectionTime) }}</el-descriptions-item>
+              </el-descriptions>
+            
+            
+            </div> 
+
+            </el-dialog> 
+
+
+
           </template>
         </el-table-column>
       </el-table>
@@ -82,7 +134,7 @@
 </template>
 
 <script setup>
-import { computed, ref, onMounted } from 'vue';
+import { computed, ref, onMounted, watch } from 'vue';
 import HeaderBar from './HeaderBar.vue';
 import SituationAwareness from './modules/SituationAwareness.vue';
 import TrafficAnalyzer from './modules/TrafficAnalyzer.vue';
@@ -91,9 +143,10 @@ import AIAnalysis from './modules/AIAnalyzer.vue';
 import HostSecurity from './modules/HostSecurity.vue';
 import ThreatIntelligencer from "./modules/ThreatIntelligence.vue"
 import { ElMessage } from 'element-plus';
-
+const selectedFile = ref(null);
 const currentMenuIndex = ref(0);
 const showNetworkMap = ref(false);
+const currentComponent = ref(null);
 const showHistoryDialog = ref(false);
 const fileHistory = ref([]);
 
@@ -135,12 +188,26 @@ const modules = [
       {
         id: 'export',
         icon: '📤',
-        text: '导出数据'
+        text: '导出数据',
+        action: () => {
+          if (currentComponent.value) {
+            currentComponent.value.exportData();
+          } else {
+            ElMessage.error('组件引用获取失败');
+          }
+        }
       },
       {
         id: 'filter',
         icon: '🔍',
-        text: '高级筛选'
+        text: '高级筛选',
+        action: () => {
+          if (currentComponent.value) {
+            currentComponent.value.showAdvancedFilter = true;
+          } else {
+            ElMessage.error('组件引用获取失败');
+          }
+        }
       }
     ]
   },
@@ -160,7 +227,6 @@ const modules = [
     title: 'AI智能研判',
     component: AIAnalysis,
     buttons: [
-   
       {
         id: 'report',
         icon: '📊',
@@ -181,7 +247,6 @@ const modules = [
   {
     title: '情报管理中心',
     component: ThreatIntelligencer,
-    
   },
 ];
 
@@ -190,7 +255,13 @@ const currentModule = computed(() => modules[currentMenuIndex.value]);
 const handleButtonClick = (buttonId) => {
   const button = currentModule.value.buttons.find(b => b.id === buttonId);
   if (button && button.action) {
+    if (currentComponent.value && typeof currentComponent.value[button.action] === 'function') {
+      currentComponent.value[button.action]();
+    } else if (typeof button.action === 'function') {
     button.action();
+    } else {
+      ElMessage.error('操作不可用');
+    }
   }
 };
 
@@ -202,9 +273,9 @@ const formatFileSize = (size) => {
 
 const getThreatLevelType = (level) => {
   const types = {
-    '高危': 'danger',
-    '中危': 'warning',
-    '低危': 'success'
+    'malicious': 'danger',
+    'suspicious': 'warning',
+    'clean': 'success'
   };
   return types[level] || 'info';
 };
@@ -224,9 +295,14 @@ const fetchFileHistory = async () => {
 };
 
 const viewFileDetails = (file) => {
+  selectedFile.value = file;
   // TODO: Implement file details view
-  console.log('View file details:', file);
 };
+
+// 监听菜单变化，重置组件状态
+watch(currentMenuIndex, () => {
+  showNetworkMap.value = false;
+});
 
 onMounted(() => {
   fetchFileHistory();

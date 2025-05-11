@@ -1,183 +1,164 @@
-from flask import Blueprint, request, jsonify
-from datetime import datetime
+from flask import Blueprint, jsonify, request
+from models.host import Host, ProcessInfo, ServiceInfo, SecurityScan
 from extensions import db
-from models.host import Host
 import subprocess
-import os
 import json
-import threading
-import time
+import os
+from datetime import datetime
 
-bp = Blueprint('host', __name__)
+bp = Blueprint('host', __name__,url_prefix='/api')
 
-# 存储正在进行的流量捕获任务
-capture_tasks = {}
-
-@bp.route('/api/hosts', methods=['GET'])
+@bp.route('/hosts', methods=['GET'])
 def get_hosts():
-    try:
-        hosts = Host.query.all()
-        return jsonify({
-            'success': True,
-            'data': [host.to_dict() for host in hosts]
-        })
-    except Exception as e:
-        return jsonify({
-            'success': False,
-            'message': str(e)
-        }), 500
+    hosts = Host.query.all()
+    return jsonify([{
+        'id': host.id,
+        'hostname': host.hostname,
+        'ip_address': host.ip_address,
+        'os_type': host.os_type,
+        'status': host.status
+    } for host in hosts])
 
-@bp.route('/api/hosts/<int:host_id>', methods=['GET'])
-def get_host_detail(host_id):
-    try:
-        host = Host.query.get_or_404(host_id)
-        return jsonify({
-            'success': True,
-            'data': host.to_dict()
-        })
-    except Exception as e:
-        return jsonify({
-            'success': False,
-            'message': str(e)
-        }), 500
-
-@bp.route('/api/hosts/capture', methods=['POST'])
-def start_capture():
-    try:
-        data = request.get_json()
-        host_id = data.get('host_id')
-        duration = data.get('duration', 5)
-        filter_str = data.get('filter', '')
-        save_path = data.get('save_path', 'captures')
-        
-        if not host_id:
-            return jsonify({
-                'success': False,
-                'message': '缺少主机ID'
-            }), 400
-        
-        # 确保保存目录存在
-        if not os.path.exists(save_path):
-            os.makedirs(save_path)
-        
-        # 生成文件名
-        timestamp = datetime.now().strftime('%Y%m%d_%H%M%S')
-        filename = f"capture_{host_id}_{timestamp}.pcap"
-        filepath = os.path.join(save_path, filename)
-        
-        # 构建tcpdump命令
-        cmd = ['tcpdump', '-i', 'any']
-        if filter_str:
-            cmd.extend(['-f', filter_str])
-        cmd.extend(['-w', filepath])
-        
-        # 启动捕获进程
-        process = subprocess.Popen(
-            cmd,
-            stdout=subprocess.PIPE,
-            stderr=subprocess.PIPE
-        )
-        
-        # 存储任务信息
-        task_id = f"{host_id}_{timestamp}"
-        capture_tasks[task_id] = {
-            'process': process,
-            'start_time': datetime.now(),
-            'duration': duration,
-            'filepath': filepath,
-            'host_id': host_id
-        }
-        
-        # 启动监控线程
-        threading.Thread(
-            target=monitor_capture,
-            args=(task_id,),
-            daemon=True
-        ).start()
-        
-        return jsonify({
-            'success': True,
-            'message': '开始捕获流量',
-            'data': {
-                'task_id': task_id,
-                'filepath': filepath
-            }
-        })
-        
-    except Exception as e:
-        return jsonify({
-            'success': False,
-            'message': str(e)
-        }), 500
-
-def monitor_capture(task_id):
-    task = capture_tasks.get(task_id)
-    if not task:
-        return
+@bp.route('/hosts/update', methods=['POST'])
+def update_host_info():
+    """处理agent发送的主机信息更新"""
+    data = request.json
     
-    start_time = task['start_time']
-    duration = task['duration']
-    process = task['process']
+    # 更新或创建主机信息
+    host = Host.query.filter_by(ip_address=data['host_info']['ip_address']).first()
+    if not host:
+        host = Host(**data['host_info'])
+        db.session.add(host)
+    else:
+        for key, value in data['host_info'].items():
+            setattr(host, key, value)
+    
+    # 更新进程信息
+    ProcessInfo.query.filter_by(host_id=host.id).delete()
+    for process in data['processes']:
+        process_info = ProcessInfo(host_id=host.id, **process)
+        db.session.add(process_info)
+    
+    # 更新服务信息
+    ServiceInfo.query.filter_by(host_id=host.id).delete()
+    for service in data['services']:
+        service_info = ServiceInfo(host_id=host.id, **service)
+        db.session.add(service_info)
+    
+    # 创建安全扫描记录
+    scan = SecurityScan(
+        host_id=host.id,
+        scan_type='agent_report',
+        status='completed',
+        findings=data['security_findings'],
+        risk_level='high' if any(f['risk_level'] == 'high' for f in data['security_findings']) else 'medium'
+    )
+    db.session.add(scan)
     
     try:
-        # 等待指定的时间
-        time.sleep(duration * 60)
-        
-        # 终止捕获进程
-        process.terminate()
-        process.wait()
-        
-        # 清理任务
-        del capture_tasks[task_id]
-        
-        # 这里可以添加文件处理逻辑，例如上传到服务器等
-        
+        db.session.commit()
+        return jsonify({'message': 'Host information updated successfully'})
     except Exception as e:
-        print(f"捕获任务 {task_id} 监控出错: {str(e)}")
-        if task_id in capture_tasks:
-            del capture_tasks[task_id]
+        db.session.rollback()
+        return jsonify({'error': str(e)}), 500
 
-@bp.route('/api/hosts/capture/<task_id>', methods=['GET'])
-def get_capture_status(task_id):
-    if task_id not in capture_tasks:
-        return jsonify({
-            'success': False,
-            'message': '任务不存在'
-        }), 404
+@bp.route('/hosts/<int:host_id>/scan', methods=['POST'])
+def start_host_scan(host_id):
+    host = Host.query.get_or_404(host_id)
+    scan_type = request.json.get('scan_type', 'basic')
     
-    task = capture_tasks[task_id]
-    elapsed = (datetime.now() - task['start_time']).total_seconds() / 60
+    # 创建新的扫描任务
+    scan = SecurityScan(
+        host_id=host_id,
+        scan_type=scan_type,
+        status='running'
+    )
+    db.session.add(scan)
+    db.session.commit()
     
-    return jsonify({
-        'success': True,
-        'data': {
-            'status': 'running',
-            'elapsed': round(elapsed, 2),
-            'duration': task['duration'],
-            'filepath': task['filepath']
-        }
-    })
-
-@bp.route('/api/hosts/capture/<task_id>', methods=['DELETE'])
-def stop_capture(task_id):
-    if task_id not in capture_tasks:
-        return jsonify({
-            'success': False,
-            'message': '任务不存在'
-        }), 404
-    
-    task = capture_tasks[task_id]
     try:
-        task['process'].terminate()
-        task['process'].wait()
-        del capture_tasks[task_id]
+        # 异步执行扫描任务
+        if scan_type == 'basic':
+            # 使用fscan进行基础扫描
+            startupinfo = None
+            if os.name == 'nt':
+                startupinfo = subprocess.STARTUPINFO()
+                startupinfo.dwFlags |= subprocess.STARTF_USESHOWWINDOW
+                startupinfo.wShowWindow = subprocess.SW_HIDE
+
+            result = subprocess.run(
+                ['E:\\TOOL\\ShenTouCeShi\\one-fox\\gui_scan\\fscan\\fscan64.exe', '-h', host.ip_address],
+                capture_output=True,
+                text=True,
+                encoding='utf-8',
+                errors='replace',
+                startupinfo=startupinfo
+            )
+            
+            if result.returncode == 0:
+                scan.findings = {'fscan_output': result.stdout}
+            else:
+                scan.findings = {
+                    'error': f'Scan failed with return code {result.returncode}',
+                    'stderr': result.stderr
+                }
+                scan.status = 'failed'
         
-        return jsonify({
-            'success': True,
-            'message': '已停止捕获'
-        })
+        
+        if scan.status != 'failed':
+            scan.status = 'completed'
+        db.session.commit()
+        
+        return jsonify({'message': 'Scan completed', 'scan_id': scan.id})
     except Exception as e:
-        return jsonify({
-            'success': False,
-            'message': str(e)
-        }), 500
+        scan.status = 'failed'
+        scan.findings = {'error': str(e)}
+        db.session.commit()
+        return jsonify({'error': str(e)}), 500
+
+@bp.route('/hosts/<int:host_id>/processes', methods=['GET'])
+def get_processes(host_id):
+    processes = ProcessInfo.query.filter_by(host_id=host_id).all()
+    return jsonify([{
+        'id': p.id,
+        'process_name': p.process_name,
+        'pid': p.pid,
+        'connections': p.connections,
+        'user': p.user,
+        'cpu_usage': p.cpu_usage,
+        'memory_usage': p.memory_usage
+    } for p in processes])
+
+@bp.route('/hosts/<int:host_id>/services', methods=['GET'])
+def get_services(host_id):
+    services = ServiceInfo.query.filter_by(host_id=host_id).all()
+    return jsonify([{
+        'id': s.id,
+        'service_name': s.service_name,
+        'status': s.status,
+        'port': s.port,
+        'protocol': s.protocol,
+        'start_type': s.start_type,
+        'display_name': s.display_name,
+        'description': s.description
+    } for s in services])
+
+
+
+@bp.route('/hosts/<int:host_id>/scans', methods=['GET'])    
+def get_scans(host_id):
+    scans = SecurityScan.query.filter_by(host_id=host_id).all()
+    return jsonify([{
+        'id': s.id,
+        'scan_type': s.scan_type,
+        'status': s.status,
+        'findings': s.findings,
+        'risk_level': s.risk_level,
+        'scan_time': s.scan_time
+    } for s in scans])
+
+
+
+def analyze_logs(host):
+    # 实现日志分析逻辑
+    pass
