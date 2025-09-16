@@ -6,7 +6,7 @@ from datetime import datetime
 bp = Blueprint('ai', __name__)
 
 # DeepSeek API配置
-DEEPSEEK_API_KEY = "sk-5606002ef9d24c6aa36a3c2c1ca8d9ea"
+DEEPSEEK_API_KEY = "sk-xxx"
 DEEPSEEK_API_URL = "https://api.deepseek.com/v1/chat/completions"
 
 def analyze_with_deepseek(content, analysis_type):
